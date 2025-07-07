@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We March Forward - Trevor James Rhoads</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f0fdff 0%, #fff5f5 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #7dd3fc;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Article Header */
+        .article-header {
+            padding: 120px 0 60px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
+        }
+
+        .article-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #0891b2, #dc2626);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .article-meta span {
+            background: rgba(125, 211, 252, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 0 10px;
+            border: 1px solid rgba(125, 211, 252, 0.3);
+        }
+
+        .back-nav {
+            display: inline-block;
+            color: #7dd3fc;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-nav:hover {
+            color: #0891b2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Article Content */
+        .article-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 80px 0;
+        }
+
+        .article-body {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 4rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(125, 211, 252, 0.2);
+        }
+
+        .article-body h2 {
+            color: #0891b2;
+            font-size: 2rem;
+            margin: 2.5rem 0 1.5rem 0;
+            position: relative;
+        }
+
+        .article-body h2::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            border-radius: 2px;
+        }
+
+        .article-body h3 {
+            color: #dc2626;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .article-body p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #444;
+        }
+
+        .article-body p:first-child {
+            font-size: 1.2rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .article-body blockquote {
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
+            border-left: 4px solid #7dd3fc;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .article-body ul, .article-body ol {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .article-body li {
+            margin-bottom: 0.5rem;
+            color: #444;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .highlight-box h4 {
+            color: #0891b2;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Author Bio */
+        .author-bio {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 60px 0;
+            border-top: 1px solid rgba(125, 211, 252, 0.2);
+        }
+
+        .bio-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 2rem;
+            align-items: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .bio-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(125, 211, 252, 0.2), rgba(248, 113, 113, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: bold;
+            border: 3px solid rgba(125, 211, 252, 0.3);
+        }
+
+        .bio-text h3 {
+            color: #0891b2;
+            margin-bottom: 0.5rem;
+        }
+
+        .bio-text p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 2rem 0;
+            color: #666;
+            border-top: 1px solid rgba(125, 211, 252, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .article-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .article-body {
+                padding: 2rem;
+                margin: 0 10px;
+            }
+
+            .bio-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .bio-image {
+                margin: 0 auto;
+            }
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Reading progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            z-index: 1001;
+            transform-origin: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header>
+        <nav class="container">
+            <a href="../index.html" class="logo">Trevor James Rhoads</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#portfolio">Portfolio</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="article-header">
+        <div class="container">
+            <h1>We March Forward</h1>
+            <div class="article-meta">
+                <span>Prose</span>
+                <span>Fantasy</span>
+                <span>20 min read</span>
+            </div>
+            <a href="../index.html#portfolio" class="back-nav">← Back to Portfolio</a>
+        </div>
+    </section>
+
+    <section class="article-content">
+        <div class="container">
+            <article class="article-body">
+                <p>Intrigue is abound as the territory of Pyro Ciera reaches its last days of political autonomy, and the conspiracies run deep when it comes to the Gryll, the insectoid race that has long been subjugated to slavery. This (one-day) novel plays fast and loose with narrative, especially as the hivemind of the Gryll open up to our human POV characters.</p>
+
+                <h2>1. Katak Natu</h2>
+                <p>&nbsp;</p>
+                <p>Fire seemed to fall with the rain. The village that had hidden Katak Venru away for the past song was a smoldering husk of huts and barns. Katak Natu found himself in the singular structure that stood unmolested. It was a sty fit for a pig. A brick of hay served as a bed in the corner, with a ripped and torn quilt smattered with mold. In a separate corner was a mound of defecation, complimented with the clinging, stinging aroma of piss.</p>
+                <p>&ldquo;No life for a katak,&rdquo; Tawnree said, her hand ever-present on the grip of her shortspear. Her face betrayed no disgust at the state of affairs, but she shook her head in a microcosm of mourning.</p>
+                <p>&ldquo;No,&rdquo; Katak Natu admitted. He gave a long exhale, attempting to eradicate the sight, the smell, the humidity that clung to him like a wolfskin. He closed his eyes and listened to the pattering of the rain on the roof. If one listened closely enough, one could hear the different notes, feel the tones. A dull thud on the hatched roof, a clean kill on the grassland, almost a whisper among the trees&mdash;each droplet had its own part to play in the song of the storm.</p>
+                <p>He listened long and grew pale during the ceremony, but Tawnree knew better than to disturb her master&rsquo;s meditation.</p>
+                <p>Thunder crashed in the periphery of his mind. Two leagues south, three. A flash and a whisper it was, but he captured it. With a gasp the grand master came to, his eyes wild before Tawnree came into focus.</p>
+                <p>&ldquo;Burn this down,&rdquo; he said. &ldquo;You alone. No one else must see this.&rdquo;</p>
+                <p>&ldquo;I understand.&rdquo; With a bow she left into the rain.</p>
+                <p>It was growing thicker, he knew. A great storm was mewing in its infancy. Perhaps Venru had known this all along, consulted the clouds. The trek east to this small crofter&rsquo;s village was no secret, and all Venru had was time.</p>
+                <p><em>You should have never left,</em> Katak Natu said into the Aether. <em>You should have faced a clean death.</em></p>
+                <p>Perhaps he still could, but it didn&rsquo;t seem particularly likely. Venru was proud and stubborn, a powerful geomancer, and an even more skilled warrior. This would be the most arduous task of the Culmination. Convincing Katak Douka to join his cause was easy, and engaging himself to Katak Amamn&rsquo;s beautiful young daughter was even easier still&hellip; but with Venru and the Dusk Makers, diplomacy was a moot artform. It would come to blood.</p>
+                <p>The final drop of civil blood, Katak Natu hoped. It had been a tumultuous history amongst the splintered and caustic tribes of the Ozenveka. They needed to be one tribe, one peoples, to survive tomorrow, and tomorrow&rsquo;s tomorrow. He couldn&rsquo;t sleep without some mystic nightmare preaching of wars and plagues and disasters yet to come. When he would wake, they would haunt him still. It will rain fire, truly, but today was not that day.</p>
+                <p>&nbsp;</p>
+                <p>&hellip;</p>
+                <p>&nbsp;</p>
+                <p>He went alone. It was required by all laws of man, for there was no question what Katak Natu was marching toward. Death for one, mourning for the other. Natu stopped, a lone silhouette in the falling sun, blotted by pitch, swirling clouds. Rain crashed down on him with torrential velocity and wanton care. It sounded like the cut of a spear on soft flesh. For one singular moment, he accepted the fact that he could very well lose this duel. It was by no means a guaranteed victory. He was excellent in shortspear, passing in longspear, but the Dusk Makers were raised as warriors from the time they could stand.</p>
+                <p>Then he let the moment pass.</p>
+                <p>He could not lose; he would not lose. For the Moon Drinkers, whose council had chosen him with unanimous approval. For the Sun Bathers and his wife-to-be, may their centuries-long vendettas be laid to rest. For the Dawn Martyrs, who had risked their lives to shift the balance of the insurrection against Venru&rsquo;s unrelenting hordes. For the Dusk Makers, the fiercest warriors of any river on any world, may they lay down their spears for a common cause.</p>
+                <p>The duel was near-at-hand, and the omnipresent thunder trumpeted his arrival. Lightning crashed among the bleak green skies, tridents of the hottest light clung to the atmosphere like roots to the earth, veins to the eye.</p>
+                <p>The flashing lights of the storm revealed a conspicuous hill ahead, with what looked like a stone building set atop. Katak Natu kept going, the grass blades nearly drowning underneath the surface of the murky water as he crushed them down with his strides, long and true.</p>
+                <p>It was a longbarrow, he realized now, with a stone entrance into the graves below. Could Venru be planning some trick, some ambush? He didn&rsquo;t think so. Katak Venru was many things, but unjust was not one. And if he was, well&hellip; then he had been a fool from the start. The entire culmination of the Ozenvekan tribes would be a stillborn dream.</p>
+                <p>So be it.</p>
+                <p>Katak Natu could not be a slave to fear. He knew Venru was not afraid. A victory for him would be sweet, but a virtuous death was the sweetest meal of them all. He entered the mausoleum.</p>
+                <p>There were no sconces to illuminate his descend, only the erratic explosions from the outside world. There were drawings on the wall. Depictions of a bloodsmattering battle with caricatures of both beasts and man competing for supremacy. A man with the head of a wolf stabbed an ivory blade through the chest of a skeleton. The skeleton wore no skin and bared no organs, yet its body leaked blood. The blood coagulated at its feet and formed a coat of crimson sabatons.&nbsp; Katak Natu studied the wall as he walked, but eventually the drawings grew strange and surreal and difficult to interpret, as if a dementia had grown in the mind of the painter. Men were no longer men and beasts were no longer beasts. One thing, however, was clear: beaten and bloody, the survivors looked up in awe at a blackened sky.</p>
+                <p>Natu frowned and returned to the task at hand. He gripped the grip of his shortspear. &ldquo;Katak,&rdquo; he said into the darkness, where the flashes could not reach. &ldquo;No need for tricks. No need to delay the inevitable.&rdquo; For a long time, all he could hear was his own footfalls.</p>
+                <p>Then the darkness whispered. &ldquo;No, come.&rdquo; Soft footsteps patterned down the steps of the mausoleum. Katak Natu followed. Among the black his knuckles grew white, taut around his spear.</p>
+                <p>The thunder grew distant, dull and without treble. If there were more drawings on the wall, Natu could not see them. He traced the wall with his free hand and realized he was in a building no longer, but in the vein of a cave system. The limestone bled water from the earth, or perhaps they were mourning some loss from eons ago.</p>
+                <p>For an hour he descended. The parasitic humidity followed him no longer, nor did the summer heat. The air had grown cool and crisp. This was the breath of the earth.</p>
+                <p>Another hour passed. The steps had long ago turned to a natural grade. No voice had spoken since he had begun his trek downward, but still he heard Venru's soft instruction. <em>No, come.</em></p>
+                <p>It was the third hour when he heard rushing water. The vein was opening up; he could feel the change in the breeze. Far in the distance, a light drew him in. He stared at the white dot among the black. Had he gone beyond the veil, into the afterlife? Had Venru tricked him with black magic? He inhaled and tasted the moisture in the air, the minerals of the water and of the earth seemed to seep within his lungs. No, he was not dead. Not yet.</p>
+                <p>The light became many. Orbs of the purest white that ebbed and flowed with pleasant ease. They were housed in the passing water, a river that cut underneath the cave walls at either side of the dome Natu had found himself in.</p>
+                <p>Natu reached the river and knelt. &ldquo;Lanternfish,&rdquo; Venru whispered behind him, as he pulled back the mask of the shadows. &ldquo;They lure prey in with their light. When the prey reaches that alluring beacon, they witness a most hideous sight: the grinning face of death.&rdquo;</p>
+                <p>Natu stayed on one knee. He studied the water. It was clear as crystal. Smaller, translucent fish swam amongst the predators, unknowing. Blots of shadow betrayed the position of the lantern fish from a top view, yet the smaller fish seemed oblivious. &ldquo;Am I the prey?&rdquo;</p>
+                <p>A curious fish swam happily to a light. With a jolt, a maw outstretched and swallowed the fish whole. The lantern light bobbled and swayed, then returned to dormancy.</p>
+                <p>&ldquo;A warrior does not wield metaphors.&rdquo; Venru knelt beside him. &ldquo;Who is to know who is which fish? And are we even the fish at all? Perhaps we are the water, or the earth that holds it, or the universe that holds <em>it</em>.&rdquo;</p>
+                <p>Katak Natu looked around and narrowed his eyes. The only path had led here. &ldquo;Where are the bodies, katak? I don&rsquo;t understand.&rdquo;</p>
+                <p>He nodded. &ldquo;Neither did I. This is no longbarrow, katak. This is a portal, from one life to the next.&rdquo;</p>
+                <p>Katak Natu stared at his contemporary. &ldquo;This I know.&rdquo; The soul behind Venru's eyes seemed to know the same. &ldquo;Must we fight here? Amongst the darkness and the fish?&rdquo;</p>
+                <p>&ldquo;I passed this mound when I first came to the village. I found it a fitting place for me, for you. But I was blind, katak, blind to its secrets. It's dark, yes, but layer by layer darkness can be peeled. So yes, I must insist. This is it. This is the place where I die.&rdquo;</p>
+                <p>Natu flinched with surprise. &ldquo;Die? That you cannot possibly know.&rdquo;</p>
+                <p>Venru smiled. Perhaps the singular moment such a man smiled. &ldquo;Yet I do. You will strike me down, impale me here.&rdquo; He beat his fist against his heart. &ldquo;You will find my heart and find it true, and all I have will be passed along to you.&rdquo;</p>
+                <p>&ldquo;Katak&hellip;&rdquo;</p>
+                <p>Venru shook his head. &ldquo;The present is a daydream, a warm summer night that simmers. The past is a haunt that follows us along, always treading our heels, yet as more memories are made, the details of the old fade. This we all know.</p>
+                <p>&ldquo;But I have seen the future, katak. A glimpse, a peek behind the veil, but I have seen it. And there is nothing after, nothing I can comprehend. So stand.&rdquo;</p>
+                <p>&ldquo;If you know you shall fall, why not follow me instead? There is a place for you in our culmination.&rdquo;</p>
+                <p>&ldquo;No,&rdquo; he said as indisputable fact. Venru stood and offered his hand. Natu took his hand and rose to his feet.</p>
+                <p>&ldquo;<em>Cada brakkus</em>,&rdquo; Katak Venru said as he bowed.</p>
+                <p>&ldquo;<em>Cada brakkus,</em>&rdquo; Katak Natu agreed. His bow was apprehensive, yet he found himself following through. As both men rose, they produced the shortspears from their hilts. Each man cut his left hand with the tip of their spears. They met in the center of the room and placed both bloody palms to the heart of the other. Venru looked like a condemned man forced to walk himself to the gallows. With the slightest of nods, they departed and took six steps back, seven, eight. They both turned back toward each other and the duel commenced.</p>
+                <p>The Dusk Makers had no flowery motions to their prowess, no wasted movement. They were brutal, precise, efficient, deadly. The Moon Drinkers, though, were a defensive sort, their art focused on forcing the opponent into disadvantageous situations, and only then capitalizing with a strike. The goal was simple: wear Venru out as he consumed energy with powerful strikes and jabs.</p>
+                <p>Venru tapped the shaft of his spear across his chest&mdash;the time for talk was over. With no wasted time, he dashed forward. He feigned a jab, then cut counterclockwise at Natu's stomach. Natu deftly dodged backwards.</p>
+                <p>Venru kept at him. He slashed right, then swiped left. He would feign this way, then feign that, all to jab at the thigh. The barrage continued as Natu leapt one way to the next. He read the feigns, dodged the strong blows, and parried the light strikes. Soon, Natu found himself against the wall.</p>
+                <p>Venru grinned as he feigned a low swipe, deciding to ultimately jab at Natu's chest. Inexplicably, Natu dropped down, his tailbone crashing against the cave floor. Natu winced as his pelvis <em>cracked</em>. Venru's spear hit the wall. Natu gripped his spear near the tip. His placed the spear right behind Venru's foot. The spearhead cut through Venru's light leather boots as it lacerated his tendon. Venru shrieked as he fell to one knee. As he did, Natu struck upward. It was true, as was preordained, and Venru's grip loosened as his spear rattled on the floor.</p>
+                <p>Venru grinned through the grimace. &ldquo;The last Ozenvekan to die by the hand of another, is this your wish?&rdquo; Natu offered no response, his hands stayed clinched to his weapon. &ldquo;I pray for you, then, Utana Katak Natu. Yes, that is your title now, is it not? Like the elder days. Is it unity you crave, or is it the power that comes with it? Regardless, let the first to call you such be whispered on the lips of the last death required to obtain it.&rdquo;</p>
+                <p>Natu lowered his spear slowly. Venru's collapsed body seemed to rest on top of him like a slant, sheltering him from the sweeping light of the room.</p>
+                <p>&ldquo;My people will follow you now, utana katak. To be the drop of blood that bonds all nations of our people&hellip; I don&rsquo;t deserve the crown of a martyr. I said the memories of the past fade, and true that may be, but unwise men such as myself ruminate on our greatest follies, and those only grow, like a malignant growth we pretend is benign. Men like me have held us back, made us stagnant. But men like you&hellip; you are the rushing river underneath the earth.&rdquo;</p>
+                <p>Natu found himself. A slight smile touched his face. &ldquo;Warriors do not wield metaphors.&rdquo;</p>
+                <p>Venru did not smile. &ldquo;I am no warrior, utana katak, I am a fraud. I am a tyrant. I am as confused as the fish that fall prey to lanterns, consumed by something I simply cannot fathom. I am glad someone like you came along&hellip; to have the good sense to&hellip;&rdquo; Venru winced. His eyes grew wide and wild. &ldquo;The water helped me see. Do we weave our own destiny? Could I have&hellip; have&hellip; killed you if I had truly tried? I do not know&hellip; katak, I do not know&hellip;&rdquo;</p>
+                <p>Natu took his hands from his spear. Venru's limp body rested peacefully on it. When Natu knew Venru was truly gone, he removed his spear from his body and cradled him like a mother would a child. Natu couldn&rsquo;t find it in himself to cry, but there was a profound sadness that chilled his bones. As he sat there, Katak Venru's corpse wrapped in his arms, he could have sworn he heard voices in the Aether, from the fish in the river or perhaps something deeper. He knew then it was time to go.</p>
+                <p>&nbsp;</p>
+                <p>Katak Venru was a stout man, broad chested with hulking shoulders. Carrying him had left Katak overencumbered. The three hour ascend back to the outside world had taken three times that. He rested in the entrance of the false longbarrow. For just a moment, the voices still floating among time and space, although they had become sparse whispers. The words themselves were unintelligible, but the feelings they conveyed were not. They preached death, decay, warped resurrection, defiled redemption.</p>
+                <p>It was dawn outside, he thought. Or perhaps it was dusk. The time below seemed to sway strangely. He carried Katak Venru until his feet finally collapsed. He set Venru against a water oak and sat next to him. As he lay there, fighting off the allure of sleep, he realized the sun was indeed falling. That made no sense to Natu, but he relented to the decision of the universe and decided it best to rest for the night. He couldn&rsquo;t even muster the energy to start a fire.</p>
+                <p>&nbsp;</p>
+                <p>A rustling among the leaves politely awoke Natu. His hazy eyes took a moment to adjust to the darkness. His ears seeked out the slightest of disturbances: an owl hooting not fifty feet away, a grazed branch&hellip; the padding of paws on the leaves.</p>
+                <p>He braced himself against the tree, rising slowly, his shortspear deep in his clutches. He could hear labored breathing. From this way, from that. Gold eyes reflected the moonlight, bobbing like will-o'-the-wisps between the trees. Soon there were five pairs, six. One pair of eyes lost their reflection as they slowly came into view. A black bear, Natu thought at first, but no, this was a wolf. The largest canine he had ever seen. Yet even for its gargantuan frame, ribs could be seen through the skin. This wolf was hungry, and it had friends.</p>
+                <p>Natu maintained eye contact with the beast, never flinching. The rest of the pack seemed content hidden among the brush. His eyes burned as they remained wide open. A torturous twenty seconds went by, maybe thirty, until the wolf barred its teeth and pounced forward.</p>
+                <p>The other wolves watched in hungry amusement as Natu grappled the beast's broad neck, slowing its wild trajectory. Its maw snapped and smacked mere inches from his head. The breath smelled like a death long passed. Saliva rushed from its gums and saturated him with fluid.</p>
+                <p>Claws like daggers had met his chest, where Katak Venru had placed him bloody palm. It burned, but there was little time to reflect as the other claw ripped at his side. Blood began to thicken between his leather jerkin and his flesh. He cried out as he managed to wrestle the beast to the ground. The wolf kicked wildly as it was forced into supine position. The hind legs clawed at his abdomen. While managing to completely control the wolf's most lethal weapon&mdash;its teeth&mdash;it seemed Natu would be felled by a thousand cuts. &nbsp;</p>
+                <p>He fumbled around the grass for his spear. One-handed the beast would surely overpower him, but he saw no other way to win this battle. A sigh of relief came as he grabbed the familiar weapon. He considered going for the heart, but after some quick reconsideration he jabbed the spear into the beast's side. It whined and whimpered as he stabbed it again, and again. Eventually the wolf's screams subsided. Only long labored breaths were given air. Natu rested haphazardly on the beast as its belly went up, down, up, down, taking Natu with it as it wavered. He looked up to the crowd of wolves, expecting certain death, but instead the eyes shrunk into keyholes into the hazy black until they could no longer be seen.</p>
+                <p>Natu started a fire. He counted the cuts all around his body, as his hand searched his skin. Thirteen in total. He grimaced. &ldquo;No man should duel twice in one day,&rdquo; he told the wolf. Though he wasn&rsquo;t sure how many days it had been since he met Venru in the bowels of that accursed cave.</p>
+                <p>He didn&rsquo;t remember falling asleep, but gentle rain drops blessed his skin until he awoke. Venru still laid beside him, his corpse wrought iron in death's embrace. Natu thought he looked quite happy in his death, or perhaps it was idle contentment.</p>
+                <p>The fire was still smoldering, the licking flames fighting against the rain. Beside the ashes and the last flames laid the great wolf, as black as the night that surrounded it. To Natu's surprise, it was still breathing. He crawled over to the beast. It looked at him with eyes of indifference and blew air from its snout. He tenderly pushed back its coat, revealing the gash he had created with his spear.</p>
+                <p>&ldquo;You are a warrior yourself,&rdquo; Natu said to the dying wolf. He traced his hands along its fur, feeling each convex rib in turn. &ldquo;So why do you hunger?&rdquo;</p>
+                <p>The wolf didn&rsquo;t answer.</p>
+                <p>&ldquo;Where have the prey gone?&rdquo; He said more to himself than the wolf. &ldquo;Summer has just begun.&rdquo;</p>
+                <p>Natu crawled back to the tree, and grabbed his spear, now splintered in half. &ldquo;I could kill you,&rdquo; Natu offered. &ldquo;No more suffering.&rdquo; The wolf offered a curious blink, then narrowed its eyes and furrowed its bushy brow. &ldquo;So be it,&rdquo; he said. He stoked the fire with his spear until the flames rose from the ashes, then he held the tip amongst the licking crown of flames.</p>
+                <p>He pulled it from the fire and now the spearhead glowed red hot in its own right. He pressed the blunt side of the searing iron to the wound. The wolf barred its teeth as its mushed flesh cauterized, but it refused to whine or whimper. Not again. Once satisfied, Natu found himself laying his head against the wolf's stomach. The rain kissed his face sweetly, and the allure of sleep became strong. &ldquo;Venrugha,&rdquo; he called the wolf. &ldquo;A warrior reborn.&rdquo;</p>
+                <p>&nbsp;</p>
+                <p>The rain had ceased by the time he awoke that morning. Four long, arid days followed. The corpse of the former katak was waking heavily on Natu's feet, legs, and shoulders. The aching muscles seemed to multiply each time he awoke. He could&rsquo;ve merely beheaded the man, or better yet taken his scalp, but that simply would not do. He died a warrior and would be buried as such. Only the cruelest and wickedest of men forewent proper burial. The rites of birth, marriage, and death&mdash;those were the tenets of a moral society.</p>
+                <p>As emotionally distant and subdued as the Dawn Makers may have seemed, he knew he could plead with their pathos, and the bloated corpse of Katak Venru would give him more credibility than he would ever need to become their rightful katak, no matter how much vitriol burned from their end.</p>
+                <p>Then there was the wolf. A gargantuan black beast that had blue merle stripes along both sides of its intimidating frame. Venrugha was growing stronger every day. Despite the loss of its status as leader, the wolf was regaining its pride every passing day. On the first day it barely bothered to look up from the ground, but by the third it majestically roamed by Natu's side. The beast wouldn&rsquo;t object to sharing some of the burden of carrying the dead katak, Natu knew, but he couldn&rsquo;t bring himself to ask. This was his burden alone.</p>
+                <p>Neither of them had eaten. They quelled their thirst at the branch of the Ozenveka they followed. White Creek, Natu was certain. And while he was also certain he could find it within himself to catch a trout or two, he hadn&rsquo;t the proper tools to filet and had not yet lost all inhibitions about consuming scales. Venrugha also paid no mind to the fish that skittishly swam away from his looming shadow. Natu wondered if he could catch fish the way the grizzled bears did up at False Falls, but these were trout, not salmon, and he was not quite a bear, though sometimes the distinction was impossible to notice.</p>
+                <p>On the fourth day, they noticed the silhouette of Iamaya-ozen. Loosely: <em>tail of the river goddess. </em>Natu had long ago lost the feeling in his legs, the only thing fueling him being pure determination. If he was a more spiritual individual, he might credit God, for granting him the strength and constitution to move forward. But God had nothing to do with bringing him here; it was simply something he had to do.</p>
+                <p>He collapsed at the outskirts, as a gaggle of women washing and drying looked over in astonishment and confusion. It was not the man who fell that gave them pause, it was the dead body that fell with him. For a moment they didn&rsquo;t even realize the dire wolf that was Venrugha.</p>
+               
+            </article>
+        </div>
+    </section>
+
+    <section class="author-bio">
+        <div class="container">
+            <div class="bio-content">
+                <div class="bio-image">
+                    <img src="https://i.imgur.com/bOCegY9.png" alt="Trevor James Rhoads" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                </div>
+                <div class="bio-text">
+                    <h3>Trevor James Rhoads</h3>
+                    <p>Trevor is a creative writer and music producer based in Cotter, Arkansas. When not writing, Trevor enjoys the nature of the Ozarks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Trevor James Rhoads. All rights reserved. | <a href="../index.html" style="color: #7dd3fc; text-decoration: none;">Return to Portfolio</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Reading progress bar
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
