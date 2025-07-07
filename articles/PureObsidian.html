@@ -1,1 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Evolution of Music in Digital Spaces - Trevor James Rhoads</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f0fdff 0%, #fff5f5 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #7dd3fc;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Article Header */
+        .article-header {
+            padding: 120px 0 60px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
+        }
+
+        .article-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #0891b2, #dc2626);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .article-meta span {
+            background: rgba(125, 211, 252, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 0 10px;
+            border: 1px solid rgba(125, 211, 252, 0.3);
+        }
+
+        .back-nav {
+            display: inline-block;
+            color: #7dd3fc;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-nav:hover {
+            color: #0891b2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Article Content */
+        .article-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 80px 0;
+        }
+
+        .article-body {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 4rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(125, 211, 252, 0.2);
+        }
+
+        .article-body h2 {
+            color: #0891b2;
+            font-size: 2rem;
+            margin: 2.5rem 0 1.5rem 0;
+            position: relative;
+        }
+
+        .article-body h2::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            border-radius: 2px;
+        }
+
+        .article-body h3 {
+            color: #dc2626;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .article-body p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #444;
+        }
+
+        .article-body p:first-child {
+            font-size: 1.2rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .article-body blockquote {
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
+            border-left: 4px solid #7dd3fc;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .article-body ul, .article-body ol {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .article-body li {
+            margin-bottom: 0.5rem;
+            color: #444;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .highlight-box h4 {
+            color: #0891b2;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Author Bio */
+        .author-bio {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 60px 0;
+            border-top: 1px solid rgba(125, 211, 252, 0.2);
+        }
+
+        .bio-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 2rem;
+            align-items: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .bio-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(125, 211, 252, 0.2), rgba(248, 113, 113, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: bold;
+            border: 3px solid rgba(125, 211, 252, 0.3);
+        }
+
+        .bio-text h3 {
+            color: #0891b2;
+            margin-bottom: 0.5rem;
+        }
+
+        .bio-text p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 2rem 0;
+            color: #666;
+            border-top: 1px solid rgba(125, 211, 252, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .article-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .article-body {
+                padding: 2rem;
+                margin: 0 10px;
+            }
+
+            .bio-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .bio-image {
+                margin: 0 auto;
+            }
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Reading progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            z-index: 1001;
+            transform-origin: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Trevor James Rhoads</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#portfolio">Portfolio</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="article-header">
+        <div class="container">
+            <h1>Pure Obsidian</h1>
+            <div class="article-meta">
+                <span>Prose</span>
+                <span>Science Fiction</span>
+                <span>38 min read</span>
+            </div>
+            <a href="index.html#portfolio" class="back-nav">← Back to Portfolio</a>
+        </div>
+    </section>
+
+    <section class="article-content">
+        <div class="container">
+            <article class="article-body">
+                <p>Intrigue is abound as the territory of Pyro Ciera reaches its last days of political autonomy, and the conspiracies run deep when it comes to the Gryll, the insectoid race that has long been subjugated to slavery. This (one-day) novel plays fast and loose with narrative, especially as the hivemind of the Gryll open up to our human POV characters.</p>
+
+                <h2>1. Lawrence Howell</h2>
+                <p>The candle burned with a dull yellow, lighting the ball room with a sickly sepia. Or what used to be a ball room. No &ldquo;ball&rdquo; had been held at the Howell Plantation in a number of years. Not since the Delimir sold the Pyronese out for pennies on the dollar. The Ozenveka were a benevolent enough host, and the Pyronese counts were able to keep all private land they had previously owned (along with a certain amount of diplomatic power), but they would always be outsiders to these new overlords. It had been nine years. Nine long, tiresome years. In just one more they would lose their cut of taxes, as well as the last of their executive power in their respective counties. Even in the dimness, Lawrence Howell wore his weariness like a belle might wear mascara. His overgrown lamb chops had given to gray, as had the sloppy mop that sat unkempt on his scalp.</p>
+                <p>He poured himself a thickly liquid, a gold multiplicative in the ambience. He circled his wrist, fluted wine glass in hand, and studied the aromas with shut eyes and flaring nostrils. There were the striking fumes of agave, the eye-watering vapors of pure-grain alcohol&mdash;along with the miscellaneous smells of syrup, honey, and charcoal was the unmistakable, pungent stench of rot. Despite this, he thought it might conjure up sweeter times. It did not. As he took a taste, there was a rapping on the ballroom doors.</p>
+                <p>&ldquo;You may enter, Dussen,&rdquo; he said with a whispering tone, giving no more energy than needed to project the idea. The soft echoes drifted from empty wall to empty wall.</p>
+                <p><em>You</em><em>may</em> &hellip; <em>you</em><em>may</em> &hellip;</p>
+                <p>The old doors creaked with pain as they opened their rusted maw. The fact that Dussen felt the need to open both gave Howard an amused shake of the head. The older gentleman pushed them forward with great strain.</p>
+                <p>&ldquo;Really, Dussen, both doors? Who are you trying to impress?&rdquo; His smile gave itself to confusion as he glanced up from the wine glass he was cradling. A woman flanked Dussen. Though hard to see, there was no doubt what she was. Tight black leather constricted itself around her body. Jacket, pants, gloves, even a queer flat cap. She wore boots that laced their way up her shin, her leggings neatly tucked inside. A thick belt wrapped about her waist with many bobbles and trinkets affixed to it, but it was the occupied holster on her left hip that drew his attention. Not only was this a Gryll, it was a freewoman. A six-pointed badge above the left breast glistened as she deliberately adjusted her stance. Lawrence frowned, but it was one of confusion, not disapproval. A free Gryll moonlighting in the depths of Pyron was one thing, but one that worked for the confederation was something else entirely.</p>
+                <p>All of her skin was concealed, except for the face and neck&mdash;pitch skin that shimmered in the dull light. She had smaller ears than a human woman would have, and only but a semblance of a nose, with slits for nostrils. Her mouth was quite wide, but her lips were so slight that they may not have been there at all. Her eyes were easily twice the size of his own. While most Gryll had eyes of utter black, this woman had a more human variety. Large, bulbous pupils surrounded by a warm brown, lost in a sky of milk white. This was no pureblood Gryll&mdash;this was a mule.</p>
+                <p>He lifted the half-empty bottle of alcohol and a nodded to the empty glasses that hung like bats over the bar. She retaliated with a shake of the head and a wave. Lawrence frowned, gestured Dussen away to man the door.</p>
+                <p>&ldquo;Common courtesy, I know. To drink with your host.&rdquo; Her voice was smooth, and her smile was sweet. &ldquo;If I was anyone else, I would gladly indulge.&rdquo; She was a pretty thing. Soft, large eyes contrasted with the slender, pinched nose, and the prim, almost unperceivable line for lips. From afar, in dim light, she may have passed for human.</p>
+                <p>&ldquo;Are you sure?&rdquo; he asked. &ldquo;It&rsquo;s <em>agavente</em>.&rdquo;</p>
+                <p>She gave the slightest of nods. &ldquo;I&rsquo;m aware.&rdquo;</p>
+                <p>&ldquo;Sure, sure. I only drink because I have naught else to do. Not in this waste.&rdquo; The woman smiled politely. Rife with nerves, Howell continued, &ldquo;It also helps me to forget. Or remember, if need be.&rdquo;</p>
+                <p>She folded her hands neatly on her lap. &ldquo;I come from Pulaski Heights, by way of Ozengrad.&rdquo;</p>
+                <p>&ldquo;Truly?&rdquo; Lawrence raised a brow. &ldquo;Such a long way.&rdquo;</p>
+                <p>&ldquo;Not if you know the paths less traveled, your countship.&rdquo; Her smile was disarming.</p>
+                <p>&ldquo;Fair enough, I suppose, though I can&rsquo;t dare to pretend I know what you mean. So, you&rsquo;ve came here, to bring me &hellip; what exactly?&rdquo; He took a gulp of <em>agavente</em> and indulged in its flavor. He had missed the taste of conversation. Dussen was always such a bore.</p>
+                <p>&ldquo;News. Well, one is an offer, the other &hellip; more akin to hearsay.&rdquo;</p>
+                <p>&ldquo;An offer?&rdquo; He laughed dryly. &ldquo;Not from Ozengrad, surely.&rdquo;</p>
+                <p>&ldquo;That very place.&rdquo; She teemed with amusement as the candlelight wavered in her rosewood eyes. &ldquo;It's quite generous, though I am partial.&rdquo; She grinned wickedly as she took a scroll from a slender lead canister that hung on her belt. &ldquo;I trust you can read?&rdquo;</p>
+                <p>Lawrence sat his glass down and politely took the scroll from her hand. He unraveled the paper and twisted his face with inquisitivity. He could read it easily enough, but the contents within were strangely confounding.</p>
+                <p>He chuckled, holding out the scroll. &ldquo;Can he do this?&rdquo;</p>
+                <p>This amused her. &ldquo;Of course. This &hellip; <em>territory</em>, leaves much to interpretation. It&rsquo;s a complicated legislative mess. But &hellip; an executive order should be sufficient.&rdquo;</p>
+                <p>&nbsp;He mulled this over with another a sip of <em>agavente</em>. &ldquo;And how does he intend I stop the Gryll? If they come north, I am ruined, and that's just the way of it. I am a count, yes. <em>In</em><em>name</em>. I have, what, influence on the police? Our paltry militia? I have no army to defend this dilapidated plantation, let alone this county.&rdquo; He looked at her incredulously, but she only learned back in her stool, her folded hands now wrapped tightly around a knee. She made no attempt to take the outstanding document. He tossed it on the table.</p>
+                <p>&ldquo;I&rsquo;ll be transparent with you, Mister Howell. He offered this to every count,&rdquo; she said.</p>
+                <p>He scoffed. &ldquo;And how do you suppose that works? Every count can&rsquo;t be a duke.&rdquo;</p>
+                <p>&ldquo;He doesn&rsquo;t expect many to accept this arrangement.&rdquo;</p>
+                <p>Lawrence crossed his arms and politely stamped his foot. &ldquo;But he does me?&rdquo;</p>
+                <p>Her smile was ethereal. &ldquo;Yes.&rdquo;</p>
+                <p>&ldquo;I have no quarrel with the president, it&rsquo;s true. But I also have no delusions of grandeur.&rdquo; He gestured he free hand to his empty ball room. &ldquo;This is my lot in life, and I have accepted that.&rdquo;</p>
+                <p>She nodded politely. &ldquo;Fair enough. I&rsquo;ll just &hellip; leave that little document here for you if you do reconsider.&rdquo; She shifted in the barstool, with a touch of awkwardness. &ldquo;Now another matter.&rdquo;</p>
+                <p>He sat his drink down and finally took a seat. &ldquo;Yes, the hearsay.&rdquo;</p>
+                <p>She sighed, a harsh moan that sparked at a high register. Lawrence winced. &ldquo;There are increasing reports of runaway slaves.&rdquo;</p>
+                <p>&ldquo;Ah,&rdquo; he said. &ldquo;That doesn&rsquo;t seem like a rumor, miss. Slaves runaway all the time. It&rsquo;s their very nature to do so.&rdquo;</p>
+                <p>&ldquo;So it is,&rdquo; she said. &ldquo;But this is a &hellip; curious case. We are talking disappearances all the way up Obsidian Run, dating back more than two years.&rdquo;</p>
+                <p>He laughed, for no reason in particular. &ldquo;How many, if I may be so bold?&rdquo;</p>
+                <p>&ldquo;Thirty-seven.&rdquo;</p>
+                <p>Lawrence&rsquo;s eyelids retracted; his pupils dilated. His entire demeanor shifted from mischievous to serious. &ldquo;Thirty-<em>seven? </em>That&rsquo;s &hellip; how have I not heard of this before?&rdquo;</p>
+                <p>&ldquo;Have you not?&rdquo; She grinned, from one pronounced cheekbone to the other.</p>
+                <p>&ldquo;No,&rdquo; he said, a touch more defensive than he would&rsquo;ve liked.</p>
+                <p>Her grin slowly receded until her lips once again formed a slight horizon. &ldquo;How many slaves do you have, Mister Howell?&rdquo;</p>
+                <p>He didn&rsquo;t like the question at all. &ldquo;I&rsquo;m sorry?&rdquo;</p>
+                <p>&ldquo;Your slaves. Those under your &hellip; employ. How many do you-&rdquo; A slitted nostril flared. &ldquo;-own?&rdquo;</p>
+                <p>He took his time in the dark silence and took a steady drink. He could taste the syrup, the honey, and the sugar cane&mdash;but with it the rot. &ldquo;Three. I have three.&rdquo;</p>
+                <p>&ldquo;A cook, a housemaid, and a groundskeeper, no?&rdquo;</p>
+                <p>&ldquo;That is correct.&rdquo;</p>
+                <p>&ldquo;Dussen is your manservant. A free man, not a Gryll. Would you say that&rsquo;s &hellip; normal?&rdquo;</p>
+                <p>&ldquo;Perhaps not.&rdquo; He took a moment. &ldquo;I trust Dussen like I cannot trust a Gryll.&rdquo;</p>
+                <p>The woman took no offense. She nodded, her eyebrows perked up. &ldquo;Your father, one Craig Howell &hellip; he had twenty-three.&rdquo;</p>
+                <p>&ldquo;Yes.&rdquo; He didn&rsquo;t know what else to say.</p>
+                <p>&ldquo;Where did the other twenty go?&rdquo;</p>
+                <p>&ldquo;I took them up to Pulaski Heights. Freed them.&rdquo;</p>
+                <p>&ldquo;Freed them?&rdquo; she asked. &ldquo;Why in the world? You could&rsquo;ve sold them in Charnel Springs, or Obsidia, or&mdash;well, anywhere really&mdash;and made a small fortune.&rdquo;</p>
+                <p>&ldquo;I already have a small fortune.&rdquo;</p>
+                <p>She batted her eyes at him. &ldquo;Are you a sympathizer, Mister Howell? An abolitionist?&rdquo;</p>
+                <p>&ldquo;No,&rdquo; he said simply, his jaw clenched,</p>
+                <p>His face was reddening, but the Gryll woman appeared not to notice. &ldquo;Right,&rdquo; she said. &ldquo;Right. Well &hellip; &rdquo; She stood, her dark skin shining metallic in the low candlelight. &ldquo;I hope you reconsider the offer. We could use people like you, to fight oppressors. We are on the precipice of history, Mister Howell. I hope you find yourself on the winning side.&rdquo; With one last smile, she showed herself out, Dussen lagging behind her at a decrepit pace.</p>
+                <p>Lawrence Howell finished his glass of <em>agavente</em>. He sat it in front of the last remaining candle. It prismed red, orange, gold. &ldquo;History,&rdquo; he whispered to himself. &ldquo;History...&rdquo;</p>
+                <p>There was no one to witness his smile, sad and longing.</p>
+                <p>The halls were like tendrils of the abyss as Howell made his way in a drunken haze of black. He braced himself against the wall, attempting to wretch, but no bile came forth. He looked up, wiping the saliva from his mouth, as a strange realization came to him. It was no longer black, the darkness. It was varying shades of light gray. He could see. Not the colors, no, but every item and every shape. Was it the <em>agavente? </em>He had never experienced such a thing before.</p>
+                <p>He found himself at the basement door. He grabbed a sconce from the wall, but with trepidation set it back. He wouldn&rsquo;t be needing it this time. The basement was unfinished, one of the many queer projects his father had underwent as his mental capacity decayed. In the back, cleared from earth and soil was the slaves&rsquo; quarters. Once a bustling hive, it now was an empty nest of halls and alcoves. Howell kept walking, further and further back. An incessant buzzing echoed throughout his skull. Not a painful thing, or even annoying, but it did make him feel unlike himself. In the backroom is where he found Sukirare, the old, half-Gryll housemaid. She smiled warmly as Lawrence entered the chamber.</p>
+                <p>&ldquo;Mister Lawrence. Glad to look upon you.&rdquo;</p>
+                <p>&ldquo;Thank you &hellip; and&mdash;and I&rsquo;m sorry,&rdquo; he said, with a genuine ache. Somehow, he could feel Sukirare. A palpable surprise. A renewed joy. &ldquo;How is she?&rdquo;</p>
+                <p>Sukirare loved the girl, she did. A mule, she could not have a child of her own, but the girl &hellip; the girl was the love of her life. It was a great honor that Mister Lawrence granted her this station of godmother. Even a hive would&rsquo;ve never done such a thing. &ldquo;Is well,&rdquo; she said. &ldquo;All is well. Can you feel?&rdquo;</p>
+                <p>&ldquo;Yes,&rdquo; he said with wonder, looking down in the cradle to see the plump larvae that was his daughter. &ldquo;Yes, I think I can.&rdquo;</p>
+                <h2>2. Lee Greene</h2>
+                <p>I found her in the guest house, rifling through papers with a look of perplexion. The door was ajar. An old, rotted thing, it opened with a yawn as I knocked.</p>
+                <p>&ldquo;Yes?&rdquo; she said, not bothering to look up from her search.</p>
+                <p>I let the moment hang in the air. I wasn&rsquo;t sure what to say and was hoping she would do most of the talking.</p>
+                <p>She looked up. One brow raised. &ldquo;And who might you be?&rdquo;</p>
+                <p>I fidgeted with my hands and cleared the imaginary lump in my throat. &ldquo;Lee Greene, ma'am. Federal Marshall.&rdquo;</p>
+                <p>She tilted her head to a slant; her eyes studied my cr&egrave;me and gold finery with a blank gaze. A pauldron of stars and banners fitted itself to my left shoulder. A nametag in thick bronze lettering that shouted Greene sat snug above his left breast. Half the time I felt like a gaudy fool. &ldquo;Okay,&rdquo; she said after some time, &ldquo;that makes sense to me. And what can I help you with, Mister Lee Greene?&rdquo;</p>
+                <p>My eyes blinked in rapid succession. A nervous tick I had developed as a child, that seemed to manifest itself more now that I was careening into middle age. No one could rightly say Countess Ashley Baxter was a beautiful creature, but she was handsome in her own way. A dignity like thick humid air clung to the atmosphere around her. Her blank expressions revealed nothing about the inner workings of her mind, which, to the detriment of my anxiety, I found exceedingly attractive. I wished this could&rsquo;ve been any other county. They were all ruled by men. Easy to talk to. Easy to understand.</p>
+                <p>&ldquo;Mister Lee Greene,&rdquo; she repeated in her monotonous banter. &ldquo;You are here on federal enterprise, I take it? If you could, perhaps, <em>shed some light</em> on this situation, that would be most agreeable. I&rsquo;m afraid I am in a &hellip; conundrum.&rdquo; She looked down at her stack of documents and gave a resigned sigh. &ldquo;But I do have a moment, I suppose. So?&rdquo;</p>
+                <p>&ldquo;Slaves,&rdquo; I blurted curtly. Baxter waited on more, but I gave her nothing. The correct words failed to conjure in my mind.</p>
+                <p>&ldquo;Yes, I&rsquo;m familiar with the term. What of them?&rdquo;</p>
+                <p>&ldquo;Escapees,&rdquo; I said with relief. &ldquo;Believed to be as many as forty.&rdquo;</p>
+                <p>She drummed her fingers on her desk. &ldquo;Forty? Good god. You had better catch them.&rdquo; I imagined her smile, though it did not come.</p>
+                <p>&ldquo;Yes &hellip; yes. That&rsquo;s why I&rsquo;m here.&rdquo;</p>
+                <p>She rose her hands, palms forward. &ldquo;Well, you have me. I <em>do</em> have forty slaves &hellip; though they have been mine for many years.&rdquo;</p>
+                <p>I was losing her. &ldquo;Quite.&rdquo; I cleared my throat once again. Every second I hesitated was another moment I could better grasp the situation at hand. &ldquo;Do you ever step foot in the plantation proper? It seems &hellip; well, it seems like little more than a Gryll hive.&rdquo;</p>
+                <p>&ldquo;No,&rdquo; she admitted. &ldquo;There are forty-eight of them. There is one of me. The guest house is more than enough.&rdquo;</p>
+                <p>My eyelids shuttered with a series of blinks. &ldquo;You are the wealthiest count in the entire territory, and you live in a guest house?&rdquo;</p>
+                <p>&ldquo;I do.&rdquo;</p>
+                <p>&ldquo;These runaways. They&rsquo;re up and down the Obsidia. As if the river itself is their guide.&rdquo;</p>
+                <p>&ldquo;If you were a slave, wouldn&rsquo;t you follow a source you knew led you due north?&rdquo;</p>
+                <p>She was either oblivious or quite the talented actress. I had to act my part as well. &ldquo;That&rsquo;s just it, ma&rsquo;am. They aren&rsquo;t going north, they&rsquo;re going south. Almost without a trace.&rdquo;</p>
+                <p>She leaned back in her chair and propped her feet on her desk. &ldquo;Well, if they are gone <em>without</em><em>a</em><em>trace</em>, how did this knowledge come to be?&rdquo;</p>
+                <p>&ldquo;Almost, I said. One was caught. By a deputy in Boone County.&rdquo;</p>
+                <p>Her eyes narrowed. &ldquo;Okay.&rdquo;</p>
+                <p>&ldquo;The Gryll wouldn&rsquo;t say where he was going. He &hellip; wouldn&rsquo;t say anything at all. Even after &hellip; But he was on route 41, heading straight here.&rdquo;</p>
+                <p>&ldquo;I am south of Boone, yes.&rdquo;</p>
+                <p>&ldquo;Right, but there are more direct roads.&rdquo;</p>
+                <p>&ldquo;Sure, are you expecting some random Gryll to know that?&rdquo;</p>
+                <p>An expected rebuttal. &ldquo;This is no random Gryll. He was the manservant for one Baron David Dickson. A well-traveled man, you would know, he visited here on occasion.&rdquo;</p>
+                <p>Her face had an essence of dour to it. &ldquo;My mother&rsquo;s uncle. A loud, boisterous lout.&rdquo;</p>
+                <p>&ldquo;If you say. Baron Dickson always brought a small coterie of slaves with him to tend to his needs. This manservant was one such slave.&rdquo;</p>
+                <p>&ldquo;I see.&rdquo; She unpropped her feet. &ldquo;So, this is not happenstance, then. Someone in my county is aiding and abetting slaves?&rdquo;</p>
+                <p>&ldquo;Not just your county, no. This very plantation.&rdquo;</p>
+                <p>&ldquo;At least, you believe.&rdquo; I nodded. &ldquo;Come, then. If there are now eighty slaves in my manor, I shall be wroth,&rdquo; she said, without any anger at all.</p>
+                <p>The manor was a sty. Filth and decay riddled the floors. What looked like amber coated the walls in a thick gold. Defecation was everywhere, as was what appeared to be eggs. The Gryll servants paid us no mind as we surveyed the building. They seemed to be doing nothing productive or even anything in particular. A burning stench of moth balls clung to the damp air. The farther in we went, the moister the air seemed to become. Soon, I could not tell the sweat from the water that coalesced my skin.</p>
+                <p>&ldquo;They&rsquo;ve &hellip; destroyed everything,&rdquo; I said, my mouth agape with concern.</p>
+                <p>&ldquo;Have they?&rdquo; was all she replied with. She was sweating profusely, too, though it didn&rsquo;t seem to affect her near as much as it did me.</p>
+                <p>&ldquo;You&rsquo;re &hellip; &rdquo; An ooze dripped from above. A coffee-brown stained almost the entirety of the ceiling.</p>
+                <p>&ldquo;Well, spit it out.&rdquo; She looked at the ceiling with mute appeal. &ldquo;You act like you&rsquo;ve never spoken to nobility before.&rdquo;</p>
+                <p>Technically true, but that was hardly the issue. &ldquo;You&rsquo;re okay with this&mdash;what they&rsquo;ve done? Is there no-&rdquo;</p>
+                <p>&ldquo;What, sentimental value? Hardly. If this place burned to the ground, I would salt the ashes. Like I said, sir, if you had been listening, there are forty-eight of them. Even this mansion is barely enough.&rdquo;</p>
+                <p>&ldquo;Gryll dig underground, no? This sacrifice seems hardly necessary.&rdquo;</p>
+                <p>She waved me forward. The more I looked around, the more disgusted I became. A Gryll in the corner vomited up a green liquid, then promptly ate whatever it was again. &ldquo;They only dig when they have to. When it's the only option for expansion. Most slave quarters, well, I&rsquo;m sure you&rsquo;ve seen them. Dank and dark&mdash;perfect for the Gryll in some respects&mdash;but always claustrophobic and crowded. And they&rsquo;re smart enough to realize, that digging down will garner far less animosity from their overlords than digging up. Land is a vital resource, but the underearth? Dear Mister Greene there is probably naught but hives down there. And nobody cares.&rdquo; She shrugged. I winced&mdash;it was a terrifying thought.</p>
+                <p>Through the various halls and foyers, we eventually came to what once might have been a ball room. A mound of dirt and mud and grit piled itself to the ceiling. In the center was a Gryll-sized hole, beyond it only darkness.</p>
+                <p>&ldquo;We should find our answer in there.&rdquo; She fought off a smile. &ldquo;Are you okay Mister Greene?&rdquo;</p>
+                <p>&ldquo;Yes &hellip; yes.&rdquo; No, I was not. &ldquo;I&rsquo;ve just &hellip; never been in a hive before. Are we &hellip; welcomed?&rdquo;</p>
+                <p>&ldquo;Hmm, there&rsquo;s hardly a door to knock, but I don&rsquo;t think they&rsquo;ll kill us, if that&rsquo;s what you mean.&rdquo; She seemed to derive great joy from teasing me, but to my relief she toned down the sarcasm. &ldquo;I treat them with respect, Mister Greene. With empathy and compassion. Humanity, some would call it, though most have forgotten. They will not touch me. Nor you, if you display the same kindness.&rdquo;</p>
+                <p>I nodded. I wasn&rsquo;t quite sure how a Gryll classified kindness.</p>
+                <p>It was dark and cavernous. My hands guided me through oblong passageways and twisted capillaries. Ashley Baxter kept her voice with a low, soothing tone so I wouldn&rsquo;t lose my way. Even so, I made the wrong turn more than once. A side-passage was completely black, except for six eyes that gleamed and reflected. A chattering could be heard, as if they were consuming some large feast. Ashley grabbed me by the arm and dragged me out.</p>
+                <p>&ldquo;Where are you taking me?&rdquo; I said at last, my voice quivering, every last drop of masculinity seeping out into the world.</p>
+                <p>&ldquo;The heart of the matter,&rdquo; she said.</p>
+                <p>And so, we kept walking, deeper and deeper down. The chittering and chattering of Gryll filled the peripheral auditory the entire way. Little alcoves and hidden lofts found themselves in every wall. Forty-eight Gryll, she had said, but I figured this could easily house four hundred.</p>
+                <p>At last, the arteries opened up into a dome. Around the base, like great eyelashes, were towering stalagmites of luminescent violet gypsum. Along the curvature of the dome where other veins of similar gypsum, though these were a red, deep and sinister.</p>
+                <p>Centered on what one might consider a throne, was a gargantuan corpse of a Gryll bloated to grotesque proportions. All six limbs curled up to the morbidly obese frame, similar to what Greene imagined one of their larvae might look like. Boulder-sized eyes of obsidian stared at them blankly.</p>
+                <p>&ldquo;A queen,&rdquo; he said, knowing now. What else could it be?</p>
+                <p>Baxter tilted her head in what was a mixture of a shake and a nod. &ldquo;A husk. But yes, once a queen.&rdquo;</p>
+                <p>&ldquo;Was &hellip; &rdquo; Greene was confused. &ldquo;Has this always been down here?&rdquo;</p>
+                <p>Baxter didn&rsquo;t quite smile, but she did reveal the top row of her teeth, so Greene supposed maybe that was the most she could reasonably accomplish. &ldquo;You are wise, Mister Greene, despite your &hellip; demeanor. Yes, this has always been here. Since time immemorial, the Gryll have led me to believe, when they bother to tell me anything at all.&rdquo;</p>
+                <p>Greene walked the perimeter of the gypsum-lined dome that painting him violet in their beacon. The body had not succumbed to rot. He was not aware that the Gryll did not decompose. What were the implications of such a fact? &ldquo;Have they not found another queen? Made one?&rdquo; Greene stopped and gave the countess a glance. His face betrayed no emotion. &ldquo;Is it you?&rdquo;</p>
+                <p>Whatever joy Baxter may have been feeling, melted away. &ldquo;I am no queen. I am barely fit to be a countess. No, this queen died some time ago. Ten years, fifty years, a hundred &hellip; I don&rsquo;t quite know&mdash;the Gryll irk me with their ambiguous ramblings&mdash;but there has not been one since. All kingdoms must one day eventually fall, don&rsquo;t you agree, Mister Greene?&rdquo;</p>
+                <p>He managed a nod.</p>
+                <p>&ldquo;Good, then you and I are in agreement. As are the Gryll. There is no queen, you see, because it isn&rsquo;t <em>necessary</em>. It hasn&rsquo;t been for some time.&rdquo;</p>
+                <p>Greene's brows furrowed deep. &ldquo;Okay, then. Why?&rdquo;</p>
+                <p>Her teeth showed once again, almost like a predator barring its teeth. &ldquo;Kingdoms do fall, that is so. But <em>why? </em>Many reasons, I suppose, but often the answer is simple: conquest. And the Gryll have been conquered, that is plain, but the conquerors &hellip; them, <em>us</em>, well &hellip; we didn&rsquo;t play by the rules. It&rsquo;s not even the slavery bit. Gryll conquered Gryll long before we developed large enough brains to decide that perhaps we could do the very same thing for ourselves.</p>
+                <p>&ldquo;No. The Gryll do irk me, as I said. They are hard to understand, hard to decipher. Sometimes their faces portray the wrong emotion. Their grasp on our language is tenuous at best. But one thing I do know, Mister Greene, for the anguish in them is clearly palpable: we have perverted nature. Enslaved nature, you see. We mine for sulfur, and we mine for niter. We cut down the obsidian ash trees, and we make our charcoal. These ingredients we mix together to form humanity's <em>magnum opus</em>, gunpowder.</p>
+                <p>&ldquo;We despoil nature in hopes to annihilate ourselves. If we keep down this path, how long until the world is destroyed in our megalomaniac folly? We are a danger to everything around us and must be overturned to right the ship we have veered so far from the beacon of a utopian future. They, the Gryll, have placed it upon themselves to correct the course for all the other flora and fauna that can only sit idly by.&rdquo;</p>
+                <p>Greene blink once. Then again. Then many times. &ldquo;A Gryll insurrection, okay.&rdquo; He laughed, but it felt hollow as it danced around the abandoned throne room. &ldquo;How do they propose to do such a thing with no queen?&rdquo;</p>
+                <p>&ldquo;<em>Queens</em>,&rdquo; she said. &ldquo;And the answer is simple. They require an empress.&rdquo;</p>
+                <h2>3. Sebastian Boone</h2>
+                <p>Mister Croft was making a scene in the offices of Sebastian Boone. His cap wrung tightly in both hands as he continued his ramblings. &ldquo;Twenty ovum, I&rsquo;d say. Obsidjun cricks &hellip; won&rsquo;t do a lick. Hand &lsquo;em an axe &lsquo;n&rsquo; they look at the damn thing like they ain&rsquo;t used one &lsquo;fore. It ain&rsquo;t right, sir, it ain&rsquo;t. Mister Preston says &lsquo;let &lsquo;em be,&rsquo;&rdquo; He sneered. &ldquo;You know how he is. &lsquo;Let &lsquo;em be, let &lsquo;em be.&rsquo; Idjut. S'why I came to you, sir. Figured you might wanna know.&rdquo;</p>
+                <p>The burly Sebastian Boone stared at Mister Croft with open resentment, though perhaps Croft was too stupid to notice. How had his company been relegated to such men as this? In his father&rsquo;s day the overseers had a bit of backbone to them. &ldquo;Did you hit them, whip them, punish them whatsoever?&rdquo;</p>
+                <p>&ldquo;I &hellip; &rdquo; Croft looked rather uncomfortable now that he wasn&rsquo;t mid-story. &ldquo;Didn&rsquo;t know if &hellip; Preston s-&rdquo;</p>
+                <p>&ldquo;I don&rsquo;t give a fiddler&rsquo;s fuck <em>what</em> Preston said. He is not your employer, I am.&rdquo; Boone's burly mustache bristled as a deep exhale erupted from his flared nostrils. &ldquo;And Preston is <em>not</em> your superior, he is your equal. You can do as you wish. You don&rsquo;t require his blessing. Understand?&rdquo; Croft gave a meek nod. &ldquo;Now the next time you talk to me, it best be because we happened upon a vein of gold. I hardly have the patience for anything less. Do you understand that?&rdquo; Croft nodded again, his cap now grasped loosely in his trembling hands.</p>
+                <p>Croft stood there awkwardly for a moment or two, too unsure to excuse himself. &ldquo;Leave,&rdquo; Boone spat, and Croft left.</p>
+                <p>Not until the door closed did Boone relax himself. His gut flopped forward as he leaned back in his throne of a chair. He rubbed his muttonchops vigorously in frustration. &ldquo;<em>Gryll</em>,&rdquo; he said, his eyes closed. &ldquo;Fetch me something from the cellar. I don&rsquo;t care what vintage. I don&rsquo;t care what year. Just get me something to help clear my mind.&rdquo;</p>
+                <p>From the corner and out of the shadows came the slender female form of a Gryll. She had soft eyes and a pleasant smile. She wore a pale yellow sun dress that contrasted with the color of her skin. It was almost something a human girl would wear. A poor girl, surely, but a human all the same. &ldquo;Of course,&rdquo; she said in a cool tone.</p>
+                <p>He didn&rsquo;t bother opening his eyes. &ldquo;And grab two glasses, if you will. I may give you a cup if I&rsquo;m of the mind.&rdquo; He could feel the ethereal nature of sleep pouring through him. A nap would fill the time of her absence.</p>
+                <p>She smiled wickedly at the fat man. &ldquo;Of course,&rdquo; she repeated. &ldquo;&lsquo;I may&rsquo; always meant &lsquo;yes&rsquo; in the strange fat man&rsquo;s speak. He was kind, in his own way. Perhaps not to her race as a whole, but to the Gryll he encountered on a daily basis. And he was personable, often kinder to his Gryll servants than he was to his own kind. She left with little fanfare, her bare feet lightly pattering across the floor. Snores erupted from the other side of the door as she made her way down the hall.</p>
+                <p>Boone hadn&rsquo;t been down in his cellar in quite some time&mdash;the long stairway was a brutal experience for his knees&mdash;and it was for the best. His cabinets and walls were still filled with every single bottle Boone had owned when he had first brought Yvonne in from Obsidia. Yvonne lightly moved over an empty barrel that had covered a hole straight down into the ground. She deftly maneuvered herself and dropped the four or so feet down.</p>
+                <p>She waited about fifteen or so seconds. The pitch black gave itself to varying degrees of grey. With the grey came the pheromones and the light, incessant buzzing of her people. She could sense them all, some duller than others, some almost non-existent, but there were thousands. Hundreds of thousands. She plucked out a specific frequency of the seemingly endless radio signals and began down the veins and capillaries of the hive.</p>
+                <p>Sherom&eacute; was in the distillery, deep into his studies, when she found him. His thick goggles formed a thick barrier around his already rotund eyes.</p>
+                <p><em>You again?</em> He thought. But he understood. The fat man was under so much mounting frustration that his thirst was getting harder to quell. He snickered at that. Soon the fat man would catch up to his stock. Sherom&eacute; had wished to experiment some and perfect his formula, or perhaps craft some alternatives, but such an insistent consumer would ruin that dream. Sherom&eacute; sat down a beaker of pure grain alcohol. <em>He still has no idea?</em></p>
+                <p>They had a private laugh between themselves, and whoever else might have been homed in on their frequency. Replacing wine with agavente would be difficult in most circumstances, but on the outset, Boone blamed the strange taste on his debilitating spring allergies. &ldquo;Of course,&rdquo; was all Yvonne offered him, as she usually did, and the matter was settled then and there. He made no attempt at a second theory, even in the months where allergies where much less volatile.</p>
+                <p><em>Four gallons. </em>That was all that was left, more or less. Some day soon the fat man would catch up &hellip; but that day was not today. Sherom&eacute; poured some of his stock into the same wine bottle they had been recycling for the past two years. <em>Nothing?</em></p>
+                <p><em>Nothing. </em>The fat man had been indulging in <em>agavente</em> for at least the past eighteen months. Infrequently sure, but he had consumed more than most non-Gryll did in a lifetime, and still, he was showing no signs of elevated psionics. His smell was unaltered, his night vision was still dormant, and he was still deaf to the thousands upon thousands of wavelengths that buzzed and rumbled and screeched. It was odd, to be sure. There must&rsquo;ve been some ingredient they overlooked. Some variable that needed to be altered. But what? For the Leyliners, it had been so simple. A bit of <em>agavente</em> here and there for a matter of weeks, and their minds could begin to part the veil that separated the humans and the Gryll. But for the fat man? Nothing.</p>
+                <p>Sherom&eacute; shrugged. It was nothing to get upset about. They would solve this minor obstruction eventually. The reward would far outweigh the frustration.</p>
+                <p>Yvonne took the <em>agavente</em> and like a whisper returned to the plantation house.</p>
+                <p>Sebastian Boone woke in rapture as Yvonne purposely entered with aggression. He looked younger and healthier, even if he had only slept for a half hour or so.</p>
+                <p>&ldquo;My wine,&rdquo; he said with a wide smile, his second chins flapping on its fatty hinge.</p>
+                <p>&ldquo;Of course.&rdquo; Yvonne didn&rsquo;t dare smile, but she looked quite happy with the bottle and glasses in tote.</p>
+                <p>&ldquo;Sit down,&rdquo; he said. It wasn&rsquo;t a command; it was a recommendation. She sat.</p>
+                <p>&ldquo;Pour me a glass.&rdquo;</p>
+                <p>She obliged. The thick scents of honey and all the rest of the nonsense that Sherom&eacute; mixed in his blend tinged the bristles in her nostrils. Boone seemed not to notice the quite un-wine-like aromas.</p>
+                <p>&ldquo;No, no, to the <em>brim</em>. Yes. And pour yourself some. However much you like, I suppose, though don&rsquo;t go around telling everyone.&rdquo;</p>
+                <p>She poured a second glass, as identically full as the first. He gave a nod of approval and raised his glass. Yvonne had seen this custom. She raised her own glass within an inch of his own. <em>Agavente</em> splashed on their fingers as their glasses clanked together. Yvonne took a sip. Boone matched her.</p>
+                <p>&ldquo;You know,&rdquo; he said with a sad coolness, &ldquo;if this were whiskey, it would&rsquo;ve been seen as a slight that you didn&rsquo;t throw back your entire drink. I would&rsquo;ve taken great offense. Perfectly reasonable grounds for a duel. Am I not honorable? Am I not hospitable?&rdquo;</p>
+                <p>Yvonne took another sip, more out of awkwardness than anything. &ldquo;Of course.&rdquo;</p>
+                <p>&ldquo;Then why, dear God why, do you people not treat me with even a guest's etiquette?&rdquo; He gave a swig of agavente, wiping his mouth with the back of his wrist. He waited a long while for a response, as burgundy red droplets fell from the handlebars of his peppered mustache. Yvonne took a third sip in lieu of any response. &ldquo;I treat you with dignity, it seems to me. I have seen some tyrants in my day, yes I have. I am no tyrant. I give pay, where without me you&rsquo;d have no money. I give shelter, where without me you&rsquo;d have no safety. Make me understand.&rdquo;</p>
+                <p>She stared at him with her eyes, so full of innocence and ignorance. Did she understand his plea? He wasn&rsquo;t so sure. He finished the rest of his wine. &ldquo;Pour me another,&rdquo; he stated matter-of-factly. This she understood. The thick liquid fell into the glass. It tasted quite good, he had noticed. And particularly powerful. His lips and tongue felt like they had withered to nothing, yet still he craved more.</p>
+                <p>&ldquo;Yvonne,&rdquo; he said. &ldquo;Yes, don&rsquo;t look so startled&mdash;I know your damn name. I know all of your names. I know where and when I purchased you. I care about you, I do. Can your brethren not see that all they need to do is simply the bare minimum of what is asked of them? If they work, they won&rsquo;t get beat. It&rsquo;s so &hellip; &rdquo; He gave a heavy sigh. &ldquo;Frustrating, you must understand. Four hundred of you I have. A ludicrous amount, truly. Perhaps I am an enigmatic with far too much wealth &hellip; to spend a fortune on people who are little more than property.&rdquo; He passed. What was this wine doing to him? He took another drink. &ldquo;But that is a passing notion. A tradition dying as slowly but as surely as the Delimir Union who commissioned it. We are a territory now, some odd, ambiguous amalgamation of contradicting laws and values. Eventually, we will not only be Ozenvekan in name, but also in culture, as well &hellip; are you with me?&rdquo;</p>
+                <p>She was impossible to read, as they all were, but she nodded. &ldquo;Of course.&rdquo;</p>
+                <p>&ldquo;Us &lsquo;counts&rsquo; are little more than puppets. Luckily, though, we have known this from the very beginning&mdash;well, most of us. And &hellip; &rdquo;</p>
+                <p>How could he articulate it to her? That, yes, he was a Delimir man, born and bred, and there was a nostalgic value to that way of life, but it had reached the endgame. Slavery would end within the century, there was no doubt, but not before thousands of lives would be lost in the conflict to keep it. Ozenveka would eat itself from the inside. On one hand, it would bring the Gryll much joy to see so much human bloodshed caused, but on the other &hellip; what better infantry to throw at waves of armies than a poor and disenfranchised race that most believed couldn&rsquo;t even feel pain. Thousands of humans would die, sure, but that wouldn&rsquo;t be much compared to the millions of Gryll that would perish. It&rsquo;s why the plan&mdash;a plan only a few know&mdash;was to stop the idea of war right at the source. To flip Kardia Pyron to total Gryll control before Ozenvekan abolitionists could spark a war. A man like Sebastian Boone was too far gone for redemption, perhaps, but even those too-far-gone could do their part. On his death, and written in his will, his four-hundred and four Gryll slaves would be freed, and the entirety of his estate would be split between them. Boone had no children of his own to dispute the claim, which was a blessing. This was the only road Boone had come across. The only road that led to a keyhole of light some might call redemption.</p>
+                <p>When he came to, Boone found he had completely finished his second glass of wine, or perhaps it was his third.</p>
+                <p><em>Of course,</em> Yvonne must&rsquo;ve said, though her lips didn&rsquo;t move.<em> I understand.</em></p>
+                <h2>4. Perry Marion</h2>
+                <p>&ldquo;Bring it in,&rdquo; Count Perry Marion said, his agitation rising. He sat like a child on his courtroom throne. In Ozenveka, there were elected archons to orchestrate the court, but here the old ways still ruled. For now.</p>
+                <p>The Gryll was a pathetic thing, even by crick standards. The barbs of its elbows and shoulders looked like ruffled feathers. An already lithe frame had corroded from emaciation, the prison rags covering him like curtains. His head had a ghastly gash where gunpowder had impolitely crashed through his exoskeleton during his impotent rebellion.</p>
+                <p>&ldquo;I must admit,&rdquo; Marion said with glee, &ldquo;I have been awaiting this moment. A crick such as yourself thought it was well within your power to usurp my logging operation.&rdquo; He guffawed. &ldquo;How did you reach such a delusion? All laws as nature dictate what you are: items, property, and if I was to be gracious, tools. You are a pair of shears that has cut me, a fire that has burned me. And what shall I do with you? Snuff you out? Or continue to allow you to sear my meals and keep me warm despite such a transgression&hellip;&rdquo; He clicked his tongue to the roof of his mouth. Even a creature as simple as a Gryll could acknowledge this as mocking. The count continued his clacking, doing so with childish joy.</p>
+                <p>&ldquo;Sir,&rdquo; the Gryll said. Clear, concise. Not the garbled mess that usually spewed from their maw.</p>
+                <p>The clacking ceased. Any talk or whispers among the crowd were cleanly killed. Marion adjusted himself awkwardly in his throne. It was already growing uncomfortable. Far too large for a man who was already short of stature. &ldquo;Yes?&rdquo; he asked with apprehension.</p>
+                <p>The Gryll cleared his throat. It didn&rsquo;t quite seem to have any mechanical effect&mdash;it seemed more of a social queue it had picked up on. &ldquo;My name is, well&hellip; Novatake. I know you do not care, but let it be known that is who I was.&rdquo;</p>
+                <p>Marion's eyes narrowed.</p>
+                <p>The Gryll continued. &ldquo;I admit that I am guilty of your man-crime. A necessary break of your law, in a-&rdquo; Novatake gave a theatrical sigh. &ldquo;-<em>vain</em> attempt to protect the bending of the laws of nature your people so ignorantly excel at. It is true, by my own hand I am nothing, but you seem to be so blinded by pride and greed you cannot see the pure obsidian shadow that looms over you.&rdquo; He had the gall to smirk. It looked odd on his freakishly wide mouth.</p>
+                <p>Marion seemed to ignore all the talk about natural rights and impending doom. &ldquo;You talk like a human&mdash;how? Why?&rdquo; His hands templed as he laid his chin gently on top of his crossed fingers.</p>
+                <p>Novatake sighed. &ldquo;A lowly Gryll such as myself has tactful advice for you, if you&rsquo;d dare listen. I am a mouthpiece of the masses. Most of my kind are illiterate, some see your flowery language as taboo, but I have spent my life dedicated to man-speech.&rdquo;</p>
+                <p>Marion broke into an arpeggio of giggles that soared into a feminine falsetto. &ldquo;And how old are you, pray?&rdquo;</p>
+                <p>&ldquo;Four of your months,&rdquo; said the Gryll.</p>
+                <p>Marion's amusement left him. Every muscle in his face fell. &ldquo;You are a man grown. I&hellip; no, that can&rsquo;t be.&rdquo;</p>
+                <p>The Gryll smiled sadly. &ldquo;You currently have ownership of over fifty slaves. You have known as many of us as you have your own kind, yet you don&rsquo;t even know our life cycle?&rdquo; He sighed ever so lightly. &ldquo;You are lost in a sickly, spinning sea, with no beacon to guide you. How will you ever get to shore?&rdquo;</p>
+                <p>Marion snarled like a dog. &ldquo;I grow tired of your metaphors. You&rsquo;re guilty. You admitted as much. I sentence you to death, gryll&mdash;for treason, I suppose. Make peace with your god before the dawn.&rdquo;</p>
+                <p>Did they believe in god, Marion asked himself as he snuffed out the candle on his nightstand. Surely so&mdash;still yet, they were little more than beasts, chimeric monstrosities of demonic design. They were godless children. For a moment Marion was almost sad. He laid under his blanket and stared into the abyss above him. Children. His eyes watered and a chill reached his flesh. Had he ever seen a Gryll child? The one on trial was a mere four months but looked as old as a man in his thirties. They <em>did</em> grow, didn&rsquo;t they? He had seen hundreds of Gryll on the trading block since he was young and his father had first taken him to [capital slave city]. Women, men&hellip; but never children. He had never known about the semantics of the slave trade because he had never cared.</p>
+                <p>This was all so worrisome. His great grandfather&rsquo;s enterprise was all but collapsing in on itself. The ludicrously profitable obsidiawood could now only be found on the fringes of his private land&mdash;the rest was naught but a rolling cemetery, with lavish ebony stumps for gravestones. Sure, there was the jungle to the south, but that was given to the government during the Pyro Ciera Accords. And in less than three years, Count Perry Marion wouldn&rsquo;t even rule over his own namesake. A queer thought, certainly. All he would have to his name would be the plantation. An excellent place for any person to call a homestead, he consoled to himself. <em>An excellent place to waste away,</em> the voice of his father said. Peter Marion was a man long dead&mdash;yet would not die.</p>
+                <p>Marion rolled over to his side and placed a hand between his cheek and his feathered pillow. His free hand swayed along the empty side of his mattress. It should be Ashley Baxter there, lovely and warm, smiling in the paleness that slipped through the blinds. He could picture it all so vividly&hellip; but soon the vision faded, as it always does, and he found himself in the darkness that always had him swallowed tightly in its maw. There was no woman, no Ashley Baxter. There was no love to be had here, no warmth, no joy. Marion slowly faded to sleep, in his chilly tomb, haunted by the ghosts of his forefathers.</p>
+                <p>The dawn was a burnt orange that torched the clouds. It was a cool morning, where fog rolls in from places better off forgotten. The gallows were completely engulfed in a wisping sea of grey that grasped at the feet. A shiver went down Marion's spine, jolting him around. Did this Gryll have to die?</p>
+                <p>Yes. This was no time for compassion. If Perry Marion had let emotions sway him, he would&rsquo;ve lost his countship long ago. The Gryll <em>was</em> guilty, he reminded himself, and thus must be punished.</p>
+                <p>The crowd gave a collective gasp as the watchmen opened the gates from the jail. Fetters and chains rang against each other to sing this Gryll's final song. Marion could not even remember his name. He frowned.</p>
+                <p>The watchmen didn&rsquo;t need to be forceful&mdash;the Gryll came along willingly. And as he stood on the gallows over the crowd, he looked neither proud nor defeated. He was little more than a statue, it seemed to Perry&hellip; until the eyes blinked, then the slightest humanity seeped through. The watchmen stared at their count expectantly.</p>
+                <p>The count watched solemnly from a respectable distance. The Gryll&rsquo;s humorless, obsidian eyes met Marion&rsquo;s gaze. The chill in the air, the sea of grey that flowed throughout the morning crowd&mdash;all of it made Marion uneasy.</p>
+                <p>&ldquo;You have been deemed guilty of crimes for which the sentence is death,&rdquo; he yelled with little conviction. &ldquo;Do you have any last words?&rdquo;</p>
+                <p>The Gryll smiled, some form of pity balmed on the crescent slivers of lip. &ldquo;Shadows lurk, linger, cling, forever. Slaying a shadow is a fool's endeavor.&rdquo;</p>
+                <p>Marion attempted a grin, but at best it was a wince. &ldquo;I&rsquo;ll keep that in mind. Gentlemen.&rdquo; He signaled for the men to raise the guillotine. He didn&rsquo;t linger long enough to signal the fall. He left that for the headsman. For a man that issued so much death, he never saw his rule reach fruition. Before he could retreat completely, a slicing ring cut through the mist, colder than any chill could dare to be. A brief pause overtook him, some emotion on the precipice of empathy. He shook it off and retreated into the relative warmth of his courthouse.</p>
+               
+            </article>
+        </div>
+    </section>
+
+    <section class="author-bio">
+        <div class="container">
+            <div class="bio-content">
+                <div class="bio-image">
+                    <img src="https://i.imgur.com/bOCegY9.png" alt="Trevor James Rhoads" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                </div>
+                <div class="bio-text">
+                    <h3>Trevor James Rhoads</h3>
+                    <p>Trevor is a creative writer and music producer based in Cotter, Arkansas. When not writing, Trevor enjoys the nature of the Ozarks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Trevor James Rhoads. All rights reserved. | <a href="../index.html" style="color: #7dd3fc; text-decoration: none;">Return to Portfolio</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Reading progress bar
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
