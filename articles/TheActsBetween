@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure Obsidian - Trevor James Rhoads</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f0fdff 0%, #fff5f5 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #7dd3fc;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Article Header */
+        .article-header {
+            padding: 120px 0 60px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
+        }
+
+        .article-header h1 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #0891b2, #dc2626);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .article-meta span {
+            background: rgba(125, 211, 252, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(125, 211, 252, 0.3);
+        }
+
+        .back-nav {
+            display: inline-block;
+            color: #7dd3fc;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-nav:hover {
+            color: #0891b2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Article Content */
+        .article-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 80px 0;
+        }
+
+        .article-body {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 4rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(125, 211, 252, 0.2);
+        }
+
+        .article-body h2 {
+            color: #0891b2;
+            font-size: 2rem;
+            margin: 2.5rem 0 1.5rem 0;
+            position: relative;
+        }
+
+        .article-body h2::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            border-radius: 2px;
+        }
+
+        .article-body h3 {
+            color: #dc2626;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .article-body p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #444;
+        }
+
+        .article-body p:first-child {
+            font-size: 1.2rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .article-body blockquote {
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
+            border-left: 4px solid #7dd3fc;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .article-body ul, .article-body ol {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .article-body li {
+            margin-bottom: 0.5rem;
+            color: #444;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .highlight-box h4 {
+            color: #0891b2;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Author Bio */
+        .author-bio {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 60px 0;
+            border-top: 1px solid rgba(125, 211, 252, 0.2);
+        }
+
+        .bio-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 2rem;
+            align-items: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .bio-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(125, 211, 252, 0.2), rgba(248, 113, 113, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: bold;
+            border: 3px solid rgba(125, 211, 252, 0.3);
+        }
+
+        .bio-text h3 {
+            color: #0891b2;
+            margin-bottom: 0.5rem;
+        }
+
+        .bio-text p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 2rem 0;
+            color: #666;
+            border-top: 1px solid rgba(125, 211, 252, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .article-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .article-body {
+                padding: 2rem;
+                margin: 0 10px;
+            }
+
+            .bio-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .bio-image {
+                margin: 0 auto;
+            }
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Reading progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #7dd3fc, #f87171);
+            z-index: 1001;
+            transform-origin: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header>
+        <nav class="container">
+            <a href="../index.html" class="logo">Trevor James Rhoads</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#portfolio">Portfolio</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="article-header">
+        <div class="container">
+            <h1>The Acts Between</h1>
+            <div class="article-meta">
+                <span>Prose</span>
+                <span>Literary Fiction</span>
+                <span>20 min read</span>
+            </div>
+            <a href="../index.html#portfolio" class="back-nav">← Back to Portfolio</a>
+        </div>
+    </section>
+
+    <section class="article-content">
+        <div class="container">
+            <article class="article-body">
+                <p>A tender, low-stakes drama about nostalgia, yearning, and holding on to fleeting moments. Our protagonist, Lionel, attempts to kindle a romance at his high school reunion.</p>
+
+                <p>The gymnasium of Loblolly High had not changed in the thirty-odd years that Lionel had known it. The same metal lockers graced the hall now as they had when he was a freshman in &rsquo;95. The nostalgic aroma of cleaning product doused the atmosphere&mdash;indeed, Gary Hannah, the same custodian that Lionel and friends had teased for his signature limp three decades prior, was still burdened with both his vocation and his interesting gait.</p>
+                <p>Gary bowed humbly, mopping his favorite spot in the lobby. Near the trophy case where a plaque read:</p>
+                <p>&nbsp;</p>
+                <p>Gary Hannah.</p>
+                <p>Record for stolen bases in a season for the state of Arkansas:</p>
+                <p>37</p>
+                <p>&nbsp;</p>
+                <p>It was no longer the record, of course. It had been surpassed many a time and recently shattered by a kid from West Side. Still, it would sit in the annals of Loblolly for as long as the old gymnasium stood. Gary had garnered much interest from nearby colleges and even visited the Arkansas State campus&mdash;a story he told to anyone who would listen&mdash;but he tore his Achilles in the regional tournament his senior year, and his apex vanished into the ether. He had been a dutiful janitor, though. For that, Lionel was grateful. Retirement loomed for the old man, and the students and faculty would never see the likes of him again, &ldquo;pimp walk&rdquo; and all.</p>
+                <p>The gym itself had been transformed into a milquetoast celebration. There was a punch bowl, a tankard of lemonade, and a selection of finger foods. Balloons hung like stalactites on the vaulted ceiling, with a draping banner that read:</p>
+                <p>&nbsp;</p>
+                <p>Cheers to 30 years!</p>
+                <p>&nbsp;</p>
+                <p>Lionel&rsquo;s secretary had commissioned the banner, but he had no idea what they were cheering for. He was hoping someone would enlighten him.</p>
+                <p>There had not been a 10-year reunion, nor a 20, but Lionel had decided to arrange a 30. He conjured many reasons for this, but the truth of the matter was that one Claire Whitlow had divorced a couple of years prior. She had been a lovely girl in high school and had aged gracefully. She was now a handsome woman of 48, a real estate agent of some renown. All their lives they had shared mutual friends, seen each other in passing, once a year, every other year, once in a blue moon&hellip; But the timing had never been right. Tonight, he hoped to ignite the spark.</p>
+                <p>The graduating class was not large&mdash;just 37. Two had passed away, and of the 28 that could be found on social media, only 23 had accepted the invitation. That number dwindled lower as the event drew near, and of the 18 remaining, who was to say that they would all show?</p>
+                <p>Theo, known more casually by his surname &ldquo;Jacoby,&rdquo; was unsurprisingly the first to show. Jacoby was the current art teacher at Loblolly and always obsessing over something mundane. Lionel beamed as his employee entered. He would never admit such a thing, but Jacoby&rsquo;s absence would have been upsetting.</p>
+                <p>Jacoby heralded a handheld camera. &ldquo;Look at this, boss.&rdquo; He showed his minuscule display to Lionel and went through his library of grainy photos. &ldquo;Found this in the ol&rsquo; attic. Reunion had me feeling a bit nostalgic. I think this is from&mdash;I don&rsquo;t know&mdash;oh five? Picture quality is shit, no doubt, but there&rsquo;s a certain allure to the stillness. Cold and corporate. Thought it&rsquo;d perfect for this&mdash;um, no offense.&rdquo;</p>
+                <p>&ldquo;Those look awful,&rdquo; Lionel said. Dry enough that even Lionel wondered if it was sarcasm.</p>
+                <p>Jacoby chuckled. &ldquo;I know! Isn&rsquo;t it beautiful?&rdquo;</p>
+                <p>Following Jacoby came the rest of the alumni. &ldquo;Uh oh, here comes trouble.&rdquo; &ldquo;They let anybody in here, huh?&rdquo; &ldquo;You still got that Dodge?&rdquo; &ldquo;Congrats on the engagement, when ya gettin&rsquo; married?&rdquo; &ldquo;Ugh&hellip; last March.&rdquo; &ldquo;Oh. That soon, huh?&rdquo;</p>
+                <p>Above all, came Claire Whitlow, in the closing moments of golden hour. When she entered, it was as if she had taken the glow of dusk with her. The sun could now set.</p>
+                <p>Lionel offered a small smile and a &ldquo;Hi.&rdquo; Claire responded with a hug. She wrapped her arms tightly around him as he offered a light, if not confused, pat on the back. Her curly strawberry blonde furled into Lionel&rsquo;s face. As the scents of chamomile and vanilla filled his nostrils, his anxiety roiled in his stomach. Before long, his nervous energy would rend his innards. What should he say? What should he do?</p>
+                <p>&ldquo;How the hell have you been?&rdquo; she said first, clasping her mouth. &ldquo;Sorry,&rdquo; she added, opening her hand like a gate, &ldquo;I had a couple glasses of wine. Forgive the language.&rdquo;</p>
+                <p>&ldquo;You know I don&rsquo;t give a shit,&rdquo; Lionel murmured. The words came out incorrectly, but Claire didn&rsquo;t seem to mind. She had already moved on to the next moment.</p>
+                <p>&ldquo;Ooh! I like the banner! How are you getting those balloons down?&rdquo;</p>
+                <p>Lionel remembered an experience the two had shared. The perfect bait for the trappings of nostalgia. &ldquo;We could throw pencils at the ceiling like we did in Civics.&rdquo;</p>
+                <p>Claire bit her lip in thought. &ldquo;Mrs. Greene? Okay, yeah. I&rsquo;ve been working out. Hitting that rowing machine.&rdquo; She shot finger guns at Lionel with a <em>pew pew </em>for effect<em>. </em>&ldquo;Does that work out the arms? I don&rsquo;t really know. I just row that shit while I watch trash TV. It&rsquo;s easy to get invested in a trainwreck, ya know?&rdquo;</p>
+                <p>Lionel shrugged. &ldquo;I don&rsquo;t watch much TV.&rdquo;</p>
+                <p>&ldquo;Oh,&rdquo; Claire said. &ldquo;Probably for the best. It&rsquo;s poison, a drug. Probably a carcinogen for all we know.&rdquo; She smiled, touched his arm lightly. &ldquo;It&rsquo;s good to see you! I&rsquo;m gonna go say hello to Kate.&rdquo;</p>
+                <p>&ldquo;You, too,&rdquo; was all Lionel remarked as she sauntered away.</p>
+                <p>Lionel cursed under his breath. The anxiety simmered down, but another pang took its place: a void. The sense that a moment was missed, never to return. Was he going to stand idly by and let every prospective spark be snuffed out by indecision?</p>
+                <p>Countering Claire&rsquo;s path, Lionel went for person to person, group to group, and conversed. The small talk was monotonous and without reason. No doubt most people enjoyed this, indulged in it, even, but to Lionel it was time wasted in a life that was already draining away.</p>
+                <p>&ldquo;It&rsquo;s like pulling teeth,&rdquo; Lionel told Jacoby by the punch bowl.</p>
+                <p>&ldquo;Yours or theirs?&rdquo; Jacoby countered, busy fidgeting with his archaic camera.</p>
+                <p>Lionel studied the room. Kate Bartlet was gesticulating wildly to the Crowley twins. &ldquo;Brain&rdquo; Crowley nearly spewed lemonade from his nostrils as she mimed. Claire was busy explaining the importance of a realtor to three peers. Kurt seemed genuinely interested in the topic, while Chris was too high to comprehend the intricacies of an unfamiliar occupation. Dave Coplen was smitten; every word Claire uttered was met with a nod and a smile. Lionel hoped he didn&rsquo;t look half as stupid when he spoke to her.</p>
+                <p>Claire must&rsquo;ve felt prying eyes. She looked up to Lionel with a light smile and excused herself from the group. Lionel exhaled deep but played it cool. He looked off to the far end of the gymnasium, where Gary mopped under the basketball goal, eyeing the food spread.</p>
+                <p>&ldquo;The way he looks at that banana pudding is downright diabolical,&rdquo; Claire said, pouring herself a cup of coffee.</p>
+                <p>Lionel smiled. A tense moment lingered as he searched for something witty to say.</p>
+                <p>He turned around, to see Claire returning to her conversation, coffee in hand.</p>
+                <p>Jacoby looked up from his camera. &ldquo;You aren&rsquo;t into her, are you?</p>
+                <p>Lionel frowned. &ldquo;Wait&mdash;why?&rdquo;</p>
+                <p>&ldquo;So, you are.&rdquo; Jacoby grinned. &ldquo;You aren&rsquo;t a peddler selling your wares. You don&rsquo;t need to smite her down with the perfect little moment. Be free. And if you can&rsquo;t be free, be loose.&rdquo;</p>
+                <p>&ldquo;I&rsquo;m not the best at being loose,&rdquo; Lionel lamented. &ldquo;Let alone being free.&rdquo;</p>
+                <p>Jacoby nodded, understanding. &ldquo;I&rsquo;m gonna go take some amateur-ass pictures. In the meantime&hellip;&rdquo; He shrugged. &ldquo;You don&rsquo;t always remember the words someone said in any given moment, but you will remember the way they said it. So don&rsquo;t overthink it, you know?&rdquo;</p>
+                <p>Lionel furled his brows. &ldquo;I&rsquo;m not sure that helps. I feel like all I have up here is gears.&rdquo;</p>
+                <p>&ldquo;You do give off android vibes.&rdquo;</p>
+                <p>&ldquo;The kids are converting you.&rdquo; Lionel waved dismissively. &ldquo;Go make your snuff film.&rdquo;</p>
+                <p>Jacoby saluted and marched away.</p>
+                <p>Kate wished to make a small prayer before they ate their cold cuts and potato salad. Lionel allowed this, but as she spoke the microphone shorted out. Lionel found himself tapping on the mic as Kate spoke to keep it working. It defied all logic, yet it worked. Kate&rsquo;s &ldquo;amen&rdquo; was seconded by a few people and met with mild applause. Now they could feast.</p>
+                <p>Claire&rsquo;s chair squeaked as she sat down next to Lionel. They ate in smiling silence, but her chair whined and creaked as she adjusted positions. Nobody else seemed to notice, but it was driving Lionel mad. He excused himself and ventured to the bathroom. He looked into the mirror that had been cracked since time immemorial. Breathing deeply, staring into the broken glass, Lionel was able to stave off a panic attack. He washed his hands as if they had been covered in blood.</p>
+                <p>After night fell in earnest, Lionel found various opportunities to hang around or interact with Claire. First, he chivalrously made another pot of coffee after she wished for a second cup. Second, he joined into a conversation she was having with Kate and Rebecca Tinsley. He made a well-timed joke that made the women cackle like a coven of witches&hellip; but it was to something Rebecca had said, not Claire. Lionel frowned at the thought. Lastly, he brought a plate of banana pudding over to her. Kate had wandered off by then, but Rebecca remained.</p>
+                <p>&ldquo;Honestly,&rdquo; he said, his mouth filled with yellow goop, &ldquo;it&rsquo;s amazing. You gotta try some.&rdquo;</p>
+                <p>He offered his plate and his spoon to Claire, which she readily accepted.</p>
+                <p>&ldquo;Wow,&rdquo; she said with a nod and a wince, &ldquo;sweet tits. It&rsquo;s like 1% banana and 99% pudding.&rdquo;</p>
+                <p>Rebecca laughed. &ldquo;You gonna be okay?&rdquo;</p>
+                <p>&ldquo;&rsquo;ou wan&rsquo; some?&rdquo; Claire asked Rebecca, her cheeks ebbing and flowing with each bite.</p>
+                <p>&ldquo;No thanks,&rdquo; Rebecca said. &ldquo;It was&hellip; one of my pregnancy hankerings. My ex was very diligent about having some around the house to avoid my wrath, and I had no self-control. Surprised I didn&rsquo;t have kidney stones of condensed milk. That said, I do fancy myself some cupcakes.&rdquo; With that, Rebecca sauntered off in search of sweets.</p>
+                <p>Lionel cleared his throat. &ldquo;Remember when we smoked weed under the bleachers?&rdquo;</p>
+                <p>Claire raised a brow at the sudden conversation change but nodded, swallowing the rest of her food. &ldquo;Of course. It&rsquo;s the only time we ever really hung out in high school.&rdquo;</p>
+                <p>Lionel smiled at that. &ldquo;Yeah, yeah. It&rsquo;s dumb&mdash;but I think about that, like&mdash;all the time.&rdquo;</p>
+                <p>&ldquo;It&rsquo;s a good memory. The weed wasn&rsquo;t good, but it&rsquo;s a good memory. Dave gave me that weed for free it was so ass.&rdquo;</p>
+                <p>Lionel chuckled. &ldquo;I don&rsquo;t think that&rsquo;s why.&rdquo;</p>
+                <p>Claire shrugged. &ldquo;I don&rsquo;t pretend to know the machinations of Dirty Dave.&rdquo;</p>
+                <p>&ldquo;A shame we only did it once.&rdquo;</p>
+                <p>Claire tilted her head, intrigued. &ldquo;Why a shame?&rdquo;</p>
+                <p>&ldquo;I would&rsquo;ve liked to&hellip; I would&rsquo;ve preferred&hellip; I feel like in some alternate dimension we did it a bunch of times&mdash;or something.&rdquo;</p>
+                <p>&ldquo;I see.&rdquo; Claire smiled sadly. &ldquo;I&rsquo;ve thought of it a few times over the years. It&rsquo;s a nice drop of water when the well gets dry, ya know? You were always so nice. I loved being around you, so when you tagged along with our group it was always a good time.&rdquo;</p>
+                <p>&ldquo;<em>Nice,</em>&rdquo; Lionel repeated. The word was a dagger to the heart. A man knew what he was in the eyes of a woman who deemed him nice.</p>
+                <p>&ldquo;Yeah,&rdquo; Claire said, unphased by Lionel&rsquo;s sudden melancholy. &ldquo;You were a cool dude. You <em>are </em>a cool dude, dude.&rdquo;</p>
+                <p>&ldquo;I think I&rsquo;m gonna get some air,&rdquo; Lionel said, rushing away.</p>
+                <p>Claire said something, perhaps his name, but he could only focus on the exit. Before he could even make it to the lobby, Lionel slipped on the floor where Gary had been mopping. His back slammed, then his head cracked. Lionel lay there, too anxious and full of adrenaline to feel the pain.</p>
+                <p>Claire knelt beside him. &ldquo;I&rsquo;ve heard of head over heels, but this is ridiculous.&rdquo; She smiled, cradled his head. &ldquo;You okay?&rdquo;</p>
+                <p>&ldquo;No,&rdquo; Lionel said. &ldquo;I feel like an idiot. In all the ways one can feel like an idiot.&rdquo;</p>
+                <p>&ldquo;No reason to&mdash;okay, the problem is, you slipped on a wet spot which is objectively hilarious&mdash;but you shouldn&rsquo;t feel that way with me.&rdquo;</p>
+                <p>&ldquo;I literally arranged this in the hopes you&rsquo;d come,&rdquo; Lionel admitted.</p>
+                <p>Claire howled into laughter. &ldquo;My man, we smoked ragweed out of a Diet Coke can our junior year of high school. It was sick; as sick as something like that can be, but&mdash;shit, man&mdash;you don&rsquo;t even know me. I don&rsquo;t know you either. We&rsquo;ve been friends of friends our entire lives, but never to each other, so what&rsquo;s with this <em>falling in love</em> business? Honestly, if you&rsquo;re willing, I&rsquo;d totally be down to falling in like with you. I think that&rsquo;d be positively righteous. I have every reason to believe that you are an upstanding gentlemen, but I don&rsquo;t reciprocate this infatuation. You should be turning your attention to the likes of Rebecca Tinsley, but you&rsquo;ve been too busy gawking at a broad like me.&rdquo;</p>
+                <p>&ldquo;Okay,&rdquo; Lionel said, &ldquo;help me up.&rdquo;</p>
+                <p>Claire helped bring him to a standing position. Lionel&rsquo;s spine crackled as he straightened himself out.</p>
+                <p>&ldquo;There you go, champ,&rdquo; Claire joked, slapping him on the back.</p>
+                <p>&ldquo;Thanks for the talk,&rdquo; Lionel said, &ldquo;but I&rsquo;m gonna go outside and lay on the concrete.&rdquo;</p>
+                <p>&nbsp;</p>
+                <p>Lionel awoke to a tap on the shoulder by Jacoby. The streetlight hovered over the hunched Jacoby like a halo.</p>
+                <p>&ldquo;Oh, thank god,&rdquo; Jacoby said. &ldquo;We hadn&rsquo;t even considered the possibility of a concussion until a couple minutes ago.&rdquo;</p>
+                <p>&ldquo;How long have I been out? A lifetime?&rdquo;</p>
+                <p>&ldquo;Yeah, that or fifteen minutes. Who&rsquo;s to say?&rdquo;</p>
+                <p>Lionel sighed, leaning his head back on the concrete.</p>
+                <p>&ldquo;Well don&rsquo;t do that!&rdquo; Jacoby said. &ldquo;Here, look at these pictures I took.&rdquo;</p>
+                <p>Reluctantly, Lionel sat up a bit and looked at the tiny monitor. In it, Lionel was fixing the microphone as Kate rattled on. Lionel was a blur, Kate a downright silhouette with human proportions. To Lionel&rsquo;s surprise, however, he was smiling in this picture, in this moment. That stupid little window of time where the absurdity of it all made him forget himself.</p>
+                <p>&ldquo;I know,&rdquo; Jacoby said, &ldquo;awful.&rdquo;</p>
+                <p>&ldquo;I&hellip; no&hellip;&rdquo;</p>
+                <p>&ldquo;Here&rsquo;s another one,&rdquo; Jacoby continued. It was nearly the same picture, taken from a different vantage point. Kate was now just outside the frame. The focus was Lionel, still tapping the shorted microphone, still somehow smiling, but in the background was Claire, wielding a smile of her own. She was ethereal, a slant of light, a spirit from another life who had been caught by the art of photography.</p>
+                <p>&ldquo;She&rsquo;s looking at you,&rdquo; Jacoby said kindly.</p>
+                <p>&ldquo;No, that&rsquo;s not me. That&rsquo;s the guy lost in the acts between. Here, help me up.&rdquo;</p>
+                <p>Jacoby flanked Lionel as he reentered the gymnasium.</p>
+                <p>Gary, wide-eyed and shaking came up to him. Clearly fearing his job, he apologized profusely.</p>
+                <p>Lionel stopped him. &ldquo;Gary. I did it to myself. Get you some banana pudding.&rdquo;</p>
+                <p>Gary blinked once, twice. &ldquo;You mean it?&rdquo;</p>
+                <p>Lionel patted the janitor on the shoulder. &ldquo;Yeah, I mean it. Now, who has ibuprofen?&rdquo;</p>
+                <p>Rebecca Tinsley dug through her purse and offered a veritable cornucopia of pain killers.</p>
+                <p>&ldquo;I have a rod in my arm,&rdquo; she said as a readied defense. &ldquo;I tried to do a kickflip on my son&rsquo;s skateboard.&rdquo;</p>
+                <p>Lionel laughed. &ldquo;I had no idea. Why on earth would you risk your middle-aged life like that?&rdquo;</p>
+                <p>She shrugged. &ldquo;He was eight&mdash;eleven now. I had recently taught him about the <em>double dog dare. </em>Well, he Uno-reversed me. <em>Dared</em> me. So, I had to show him I meant business.&rdquo;</p>
+                <p>&ldquo;You had a kid at thirty-seven?&rdquo;</p>
+                <p>&ldquo;I did.&rdquo;</p>
+                <p>Lionel considered this. &ldquo;Hell of a time to start a family.&rdquo;</p>
+                <p>Rebecca countered with an easy smile. &ldquo;Any time is a good time to start.&rdquo;</p>
+                <p>That sounded nice.</p>
+                <p>&ldquo;You&rsquo;re divorced, right?&rdquo; That didn&rsquo;t sound as nice. &ldquo;I mean&mdash;what I&rsquo;m asking is&mdash;can I have your number?&rdquo;</p>
+                <p>&ldquo;You&rsquo;re a mess&hellip; but yeah. Give me your cellular telephone.&rdquo;</p>
+                <p>&ldquo;I think Claire is smoking weed under the bleachers like she did in high school if you&rsquo;re looking for her,&rdquo; Rebecca said as she typed away on Lionel&rsquo;s phone.</p>
+                <p>&ldquo;Yeah, I need to&mdash;not apologize&mdash;but something.&rdquo;</p>
+                <p>He found her there, crisscross applesauce, sipping on a vape.</p>
+                <p>&ldquo;It&rsquo;s not as cool, I know,&rdquo; Claire said. &ldquo;But it&rsquo;s coy.&rdquo;</p>
+                <p>Lionel sat next to her, pain rushing to his head as he did so. He grabbed at his temple.</p>
+                <p>&ldquo;You good?&rdquo;</p>
+                <p>&ldquo;Yeah, Rebecca gave me a painkiller cocktail. And her number.&rdquo;</p>
+                <p>Claire&rsquo;s eyes shot open. &ldquo;Oh? She&rsquo;s a cool chick. Did you know she can skateboard?&rdquo;</p>
+                <p>Lionel shook his head. &ldquo;Not sure about <em>can skateboard.</em>&rdquo;</p>
+                <p>&ldquo;No, seriously. She broke her wrist or something when she first started, but she can actually&mdash;okay, I don&rsquo;t know if she can do any tricks&mdash;but she can ride.&rdquo;</p>
+                <p>&ldquo;That&rsquo;s&hellip; cool.&rdquo;</p>
+                <p>&ldquo;No shit.&rdquo; She handed over her vape. Lionel accepted and took a hit. &ldquo;You should treat those digits like winning lotto numbers.&rdquo;</p>
+                <p>Lionel grinned.</p>
+                <p>&ldquo;She also made that banana pudding you so covet, did you know that? It&rsquo;s hitting people like crack hit the &lsquo;80s.&rdquo;</p>
+                <p>Lionel handed the vape back as he broke into a fit of coughs. &ldquo;Jesus&hellip; H&hellip; so does this.&rdquo; Lionel wiped a tear from his eye. &ldquo;My head&rsquo;s feeling better at least.&rdquo;</p>
+                <p>&ldquo;Yeah, that was quite the tumble.&rdquo;</p>
+                <p>&ldquo;Fell back to reality.&rdquo;</p>
+                <p>Claire rolled her eyes. &ldquo;Oh, <em>shut up</em>. Just unresolved puppy love. You&rsquo;ve had three decades to overthink everything about me&mdash;to craft the perfect idea of me&mdash;but you don&rsquo;t know the concrete noun. I&rsquo;m not some infallible creature.&rdquo;</p>
+                <p>Lionel nodded. &ldquo;I caught you in a snapshot.&rdquo;</p>
+                <p>The two let the moment breathe as the haze of the vape dissipated.</p>
+                <p>&nbsp;</p>
+                <p>For Lionel, the rest of the night went by with a recharged energy. The food was middling, the atmosphere stale and artificial, but the company proved to be exceptional. Lionel spoke to everyone who had attended, not because he felt obligated, but because he was genuinely interested in what was transpiring in their lives. Lionel had rediscovered empathy; something he hadn&rsquo;t known he&rsquo;d lost.</p>
+                <p>After a brief disappearance, Jacoby returned with several printed photos.</p>
+                <p>&ldquo;I ran to the computer lab,&rdquo; he said. &ldquo;Thought I&rsquo;d give out some souvenirs. Here.&rdquo; Jacoby handed over glossy 4x6 copies of the two photos he had shown Lionel earlier.</p>
+                <p>Lionel couldn&rsquo;t shirk a smile. &ldquo;Wow. Thanks.&rdquo;</p>
+                <p>&ldquo;Oh, and a third.&rdquo;</p>
+                <p>Intrigued, Lionel accepted a third picture. It was Rebecca describing doing a kickflip while pointing to the rod in her arm. Next to her Lionel was erupting in laughter.</p>
+                <p>&ldquo;That&rsquo;s a different guy.&rdquo;</p>
+                <p>&ldquo;Alright,&rdquo; Lionel said, &ldquo;maybe we can retire the word <em>guy.</em>&rdquo;</p>
+                <p>&ldquo;Sure, man.&rdquo; Jacoby tapped him on the arm. &ldquo;Let me go pass these out like flyers.&rdquo;</p>
+                <p>Lionel found Claire pouring herself the dregs of the coffee pot.</p>
+                <p>&ldquo;A third cup?&rdquo;</p>
+                <p>&ldquo;Look, I quit smoking when I was twenty. I quit drinking when I was thirty. I even quit men for a short time in the twenty-tens&hellip; but God will have to pry caffeine from my hot, dead hands.&rdquo; She immediately drank. &ldquo;Ow,&rdquo; she said, &ldquo;my tongue feels like a softball mitt.&rdquo;</p>
+                <p>Lionel handed her a photocopy.</p>
+                <p>Claire studied it. &ldquo;I look like a ghost who&rsquo;s still waiting for her husband to come back from the war.&rdquo; She offered it back, but Lionel declined.</p>
+                <p>&ldquo;I want you to keep it.&rdquo;</p>
+                <p>&ldquo;Oh.&rdquo; Claire was taken aback. &ldquo;Okay, yeah. I&rsquo;ll put in in the <em>foy-yay</em>.&rdquo; She frowned. &ldquo;If I had a <em>foy-yay</em>...&rdquo;</p>
+                <p>&ldquo;Mantle over the fireplace?&rdquo; Lionel joked.</p>
+                <p>&ldquo;Don&rsquo;t have that either. Shame.&rdquo; She giggled. &ldquo;I&rsquo;m just messing with you. I&rsquo;ll put it in my zen room. I&rsquo;ll light my frankincense and myrrh, and when I&rsquo;m failing at guitar or beading my stupid bracelets, I&rsquo;ll catch a glimpse of it and smile. I&rsquo;m going to think about your wipeout until the day I die. <em>Don&rsquo;t be embarrassed! </em>I&rsquo;ll think of it fondly. Not sure that makes sense, but I will.&rdquo;</p>
+                <p>&ldquo;I know.&rdquo;</p>
+                <p>Lionel considered giving Rebecca the picture with them in it but decided he would stash it away for the time being. If they ended up talking, dating, married, he would gladly procure it and hang it in a place of prominence, <em>foy-yay</em> or otherwise. He had no zen room&mdash;he&rsquo;d never heard of that term before&mdash;but perhaps he would need to refit his guest bedroom, A.K.A. his storage closet. If not, then in the vault it would remain, and that was all right, too.</p>
+                <p>Some alumni graciously stayed to help clean up. Jacoby volunteered for the thankless task of cleaning up all the food and drinks.</p>
+                <p>&ldquo;Little more than a mess hall,&rdquo; Jacoby said, swiping crumbs into a trashcan.</p>
+                <p>&ldquo;You should take that banana pudding home,&rdquo; Lionel offered.</p>
+                <p>&ldquo;Okay, stoner,&rdquo; Jacoby said with a laugh. &ldquo;Nah, I&rsquo;m good. Not a vanilla guy. Never have been, and, <em>as the twilight of entropy reigns down upon me with its white-knuckled gravity</em>, I fear I never will be.&rdquo;</p>
+                <p>Lionel took the bowl of pale-yellow pudding and approached Gary.</p>
+                <p>Gary was waxing poetically when Lionel found him. &ldquo;&hellip;Marked Tree that year. It&rsquo;s called Marked Tree because it had a tree marked,&rdquo; he rattled on to poor Kate who had clearly been entrapped in an asinine conversation.</p>
+                <p>&ldquo;Oh,&rdquo; she responded, despondent. &ldquo;Cool.&rdquo;</p>
+                <p>&ldquo;Hey Kate, I think Rebecca&rsquo;s looking for you,&rdquo; he offered, as a life raft.</p>
+                <p>She readily took it. &ldquo;<em>Thank you</em>&rdquo;, she graciously told him. &ldquo;For the mic thing, too. I think I might be the last practicing Christian left, but it was a kind thing for a blaspheming heathen like yourself to do.&rdquo;</p>
+                <p>&ldquo;No problem.&rdquo; He smiled, as Kate made her get away. &ldquo;I want you to have this bowl of banana pudding, Gary.&rdquo;</p>
+                <p>Gary didn&rsquo;t hesitate to grab the bowl with both hands, but he frowned as he looked inside. &ldquo;Almost empty&hellip;&rdquo;</p>
+                <p>&ldquo;For now, but I know someone with the recipe. Maybe she&rsquo;ll bestow it upon you for your retirement.&rdquo;</p>
+                <p>Gary furled his brow. &ldquo;So, I don&rsquo;t have to garden? Or play tennis? I can spend out my days making pudding?&rdquo;</p>
+                <p>&ldquo;I don&rsquo;t see why not.&rdquo;</p>
+                <p>&ldquo;Hmm,&rdquo; was all Gary said as he shuffled away with newfound contentment.</p>
+                <p>The last remaining task was to put away all the chairs and tables. Lionel swayed like a penguin, carrying far too many folded metal chairs. Claire, stifling laughter, followed behind with a singular chair in each hand.</p>
+                <p>&ldquo;Wish I knew where that squeaky chair was,&rdquo; Lionel said, haphazardly stacking the chairs like dominos. &ldquo;I&rsquo;d take it out to pasture and send it to the glue factory.&rdquo;</p>
+                <p>&ldquo;Oh.&rdquo; Claire blushed as she handed Lionel her chairs. &ldquo;That was mine... I tried not to move! But I just draw attention to myself.&rdquo;</p>
+                <p>&ldquo;Honestly, I&rsquo;m relieved. I thought I was the only one who heard it.&rdquo;</p>
+                <p>&ldquo;No. You were just the only one outwardly wincing.&rdquo; Claire remained for a moment. &ldquo;Are you going to text Rebecca?&rdquo;</p>
+                <p>&ldquo;Yeah,&rdquo; Lionel said. &ldquo;Maybe give it a couple days, but yeah.&rdquo;</p>
+                <p>&ldquo;Good&hellip; you should&hellip;&rdquo;</p>
+                <p>Lionel loosed a smile at that, and Claire smiled, too.</p>
+                <p>For once, his was genuine, and hers was faked&mdash;but Lionel was too carefree in the moment to notice.</p>
+
+            </article>
+        </div>
+    </section>
+
+    <section class="author-bio">
+        <div class="container">
+            <div class="bio-content">
+                <div class="bio-image">
+                    <img src="https://i.imgur.com/bOCegY9.png" alt="Trevor James Rhoads" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                </div>
+                <div class="bio-text">
+                    <h3>Trevor James Rhoads</h3>
+                    <p>Trevor is a creative writer and music producer based in Cotter, Arkansas. When not writing, Trevor enjoys wallowing in yet another existential crisis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Trevor James Rhoads. All rights reserved. | <a href="../index.html" style="color: #7dd3fc; text-decoration: none;">Return to Portfolio</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Reading progress bar
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
