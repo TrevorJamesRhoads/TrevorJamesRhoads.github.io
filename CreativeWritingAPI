@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Writing API - Trevor James Rhoads</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0891b2;
+            --secondary: #dc2626;
+            --dark: #1a1a2e;
+            --light: #f0f0f0;
+            --accent: #7dd3fc;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: float 20s infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.2);
+            }
+        }
+
+        .tagline {
+            color: var(--accent);
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(125, 211, 252, 0.2);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .api-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(125, 211, 252, 0.2);
+        }
+
+        .endpoint {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(125, 211, 252, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .endpoint:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(125, 211, 252, 0.2);
+            border-color: var(--accent);
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .method {
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .endpoint-title {
+            color: var(--accent);
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .endpoint-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .try-button {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .try-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(125, 211, 252, 0.4);
+        }
+
+        .output-area {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(125, 211, 252, 0.2);
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .output-area.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(125, 211, 252, 0.3);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .nav-item {
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-item:hover {
+            background: rgba(125, 211, 252, 0.1);
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(125, 211, 252, 0.2);
+            color: var(--accent);
+            border-left: 3px solid var(--accent);
+        }
+
+        .parameter-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(125, 211, 252, 0.2);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 5px;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .parameter-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(125, 211, 252, 0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(125, 211, 252, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(125, 211, 252, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        select {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(125, 211, 252, 0.2);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 5px;
+            width: 100%;
+            margin-top: 0.5rem;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+        }
+
+        .copy-button {
+            background: rgba(125, 211, 252, 0.2);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            float: right;
+        }
+
+        .copy-button:hover {
+            background: rgba(125, 211, 252, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Creative Writing API</h1>
+            <p class="tagline">Your Personal Literary Generation Engine</p>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="requestCount">0</div>
+                <div class="stat-label">Requests Made</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="wordCount">0</div>
+                <div class="stat-label">Words Generated</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeStyle">Gothic Noir</div>
+                <div class="stat-label">Active Style</div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="sidebar">
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">Quick Navigation</h3>
+                <div class="nav-item active" onclick="scrollToSection('character')">Character Generator</div>
+                <div class="nav-item" onclick="scrollToSection('plot')">Plot Architect</div>
+                <div class="nav-item" onclick="scrollToSection('dialogue')">Dialogue Engine</div>
+                <div class="nav-item" onclick="scrollToSection('world')">World Builder</div>
+                <div class="nav-item" onclick="scrollToSection('prose')">Prose Stylist</div>
+                <div class="nav-item" onclick="scrollToSection('conflict')">Conflict Generator</div>
+            </div>
+
+            <div class="api-section">
+                <!-- Character Generator -->
+                <div class="endpoint" id="character">
+                    <div class="endpoint-header">
+                        <span class="method">POST</span>
+                        <span class="endpoint-title">/api/character/generate</span>
+                    </div>
+                    <p class="endpoint-description">
+                        Generate complex, morally ambiguous characters with deep backstories, internal conflicts, and unique voices. Inspired by your character work in "Pure Obsidian" and "The Last Case."
+                    </p>
+                    <div>
+                        <label>Character Type:</label>
+                        <select id="charType">
+                            <option value="protagonist">Flawed Protagonist</option>
+                            <option value="antagonist">Sympathetic Antagonist</option>
+                            <option value="antihero">Antihero</option>
+                            <option value="mentor">Broken Mentor</option>
+                            <option value="wildcard">Wildcard</option>
+                        </select>
+                        
+                        <label style="margin-top: 1rem; display: block;">Setting:</label>
+                        <input type="text" class="parameter-input" id="charSetting" placeholder="e.g., 1930s Chicago, Fantasy realm, Space station">
+                        
+                        <label style="margin-top: 1rem; display: block;">Core Tragedy:</label>
+                        <input type="text" class="parameter-input" id="charTragedy" placeholder="e.g., Lost a child, Betrayed their principles">
+                    </div>
+                    <button class="try-button" onclick="generateCharacter()">Generate Character</button>
+                    <div class="output-area" id="charOutput"></div>
+                </div>
+
+                <!-- Plot Architect -->
+                <div class="endpoint" id="plot">
+                    <div class="endpoint-header">
+                        <span class="method">POST</span>
+                        <span class="endpoint-title">/api/plot/architect</span>
+                    </div>
+                    <p class="endpoint-description">
+                        Construct intricate, multi-layered plots with unexpected revelations, moral complexity, and emotional depth. Creates stories where redemption and corruption dance together.
+                    </p>
+                    <div>
+                        <label>Genre Blend:</label>
+                        <select id="plotGenre">
+                            <option value="noir-fantasy">Noir Fantasy</option>
+                            <option value="gothic-scifi">Gothic Sci-Fi</option>
+                            <option value="historical-mystery">Historical Mystery</option>
+                            <option value="psychological-thriller">Psychological Thriller</option>
+                            <option value="dark-comedy">Dark Comedy</option>
+                        </select>
+                        
+                        <label style="margin-top: 1rem; display: block;">Central Theme:</label>
+                        <input type="text" class="parameter-input" id="plotTheme" placeholder="e.g., Redemption through sacrifice, The price of knowledge">
+                        
+                        <label style="margin-top: 1rem; display: block;">Stakes:</label>
+                        <select id="plotStakes">
+                            <option value="personal">Personal/Emotional</option>
+                            <option value="family">Family Legacy</option>
+                            <option value="societal">Societal Change</option>
+                            <option value="existential">Existential/Philosophical</option>
+                        </select>
+                    </div>
+                    <button class="try-button" onclick="generatePlot()">Architect Plot</button>
+                    <div class="output-area" id="plotOutput"></div>
+                </div>
+
+                <!-- Dialogue Engine -->
+                <div class="endpoint" id="dialogue">
+                    <div class="endpoint-header">
+                        <span class="method">POST</span>
+                        <span class="endpoint-title">/api/dialogue/generate</span>
+                    </div>
+                    <p class="endpoint-description">
+                        Create authentic, period-appropriate dialogue with subtext, wit, and emotional weight. Each character speaks with a distinct voice that reveals their inner world.
+                    </p>
+                    <div>
+                        <label>Scene Type:</label>
+                        <select id="dialogueType">
+                            <option value="confrontation">Confrontation</option>
+                            <option value="revelation">Revelation</option>
+                            <option value="manipulation">Manipulation</option>
+                            <option value="reconciliation">Reconciliation</option>
+                            <option value="interrogation">Interrogation</option>
+                        </select>
+                        
+                        <label style="margin-top: 1rem; display: block;">Character Dynamic:</label>
+                        <input type="text" class="parameter-input" id="dialogueDynamic" placeholder="e.g., Father and estranged daughter, Master and slave">
+                        
+                        <label style="margin-top: 1rem; display: block;">Underlying Tension:</label>
+                        <input type="text" class="parameter-input" id="dialogueTension" placeholder="e.g., Unspoken guilt, Hidden identity">
+                    </div>
+                    <button class="try-button" onclick="generateDialogue()">Generate Dialogue</button>
+                    <div class="output-area" id="dialogueOutput"></div>
+                </div>
+
+                <!-- World Builder -->
+                <div class="endpoint" id="world">
+                    <div class="endpoint-header">
+                        <span class="method">POST</span>
+                        <span class="endpoint-title">/api/world/build</span>
+                    </div>
+                    <p class="endpoint-description">
+                        Construct rich, atmospheric worlds with complex social hierarchies, hidden histories, and environments that reflect the moral state of their inhabitants.
+                    </p>
+                    <div>
+                        <label>World Type:</label>
+                        <select id="worldType">
+                            <option value="decaying-empire">Decaying Empire</option>
+                            <option value="hidden-society">Hidden Society</option>
+                            <option value="frontier">Lawless Frontier</option>
+                            <option value="dystopia">Subtle Dystopia</option>
+                            <option value="parallel">Parallel Reality</option>
+                        </select>
+                        
+                        <label style="margin-top: 1rem; display: block;">Dominant Conflict:</label>
+                        <input type="text" class="parameter-input" id="worldConflict" placeholder="e.g., Slavery vs freedom, Technology vs nature">
+                        
+                        <label style="margin-top: 1rem; display: block;">Atmosphere:</label>
+                        <select id="worldAtmosphere">
+                            <option value="oppressive">Oppressive & Heavy</option>
+                            <option value="decadent">Decadent & Rotting</option>
+                            <option value="mysterious">Mysterious & Ancient</option>
+                            <option value="tense">Tense & Volatile</option>
+                        </select>
+                    </div>
+                    <button class="try-button" onclick="generateWorld()">Build World</button>
+                    <div class="output-area" id="worldOutput"></div>
+                </div>
+
+                <!-- Prose Stylist -->
+                <div class="endpoint" id="prose">
+                    <div class="endpoint-header">
+                        <span class="method">POST</span>
+                        <span class="endpoint-title">/api/prose/style</span>
+                    </div>
+                    <p class="endpoint-description">
+                        Generate atmospheric prose with rich sensory details, metaphorical depth, and emotional resonance. Crafts sentences that linger in the mind like smoke in a darkened room.
+                    </p>
+                    <div>
+                        <label>Prose Style:</label>
+                        <select id="proseStyle">
+                            <option value="noir">Noir (Hard-boiled)</option>
+                            <option value="gothic">Gothic (Atmospheric)</option>
+                            <option value="stream">Stream of Consciousness</option>
+                            <option value="minimalist">Minimalist (Hemingway-esque)</option>
+                            <option value="ornate">Ornate (Faulknerian)</option>
+                        </select>
+                        
+                        <label style="margin-top: 1rem; display: block;">Scene to Describe:</label>
+                        <input type="text" class="parameter-input" id="proseScene" placeholder="e.g., A corrupt detective enters a speakeasy">
+                        
+                        <label style="margin-top: 1rem; display: block;">Emotional Tone:</label>
+                        <select id="proseTone">
+                            <option value="melancholic">Melancholic</option>
+                            <option value="tense">Tense</option>
+                            <option value="eerie">Eerie</option>
+                            <option value="desperate">Desperate</option>
+                            <option value="triumphant">Quietly Triumphant</option>
+                        </select>
+                    </div>
+                    <button class="try-button" onclick="generateProse()">Style Prose</button>
+                    <div class="output-area" id="proseOutput"></div>
+                </div>
+
+                <!-- Conflict Generator -->
+                <div class="endpoint" id="conflict">
+                    <div class="endpoint-header">
+                        <span class="method">POST</span>
+                        <span class="endpoint-title">/api/conflict/generate</span>
+                    </div>
+                    <p class="endpoint-description">
+                        Create multi-dimensional conflicts where no one is purely good or evil. Generate moral dilemmas that challenge characters to choose between competing values.
+                    </p>
+                    <div>
+                        <label>Conflict Type:</label>
+                        <select id="conflictType">
+                            <option value="moral">Moral Dilemma</option>
+                            <option value="loyalty">Divided Loyalty</option>
+                            <option value="identity">Identity Crisis</option>
+                            <option value="systemic">Individual vs System</option>
+                            <option value="generational">Generational Trauma</option>
+                        </select>
+                        
+                        <label style="margin-top: 1rem; display: block;">Core Question:</label>
+                        <input type="text" class="parameter-input" id="conflictQuestion" placeholder="e.g., Is revenge ever justice? Can love survive betrayal?">
+                        
+                        <label style="margin-top: 1rem; display: block;">No-Win Element:</label>
+                        <input type="text" class="parameter-input" id="conflictNoWin" placeholder="e.g., Save daughter or save city, Truth destroys innocents">
+                    </div>
+                    <button class="try-button" onclick="generateConflict()">Generate Conflict</button>
+                    <div class="output-area" id="conflictOutput"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Stats tracking
+        let stats = {
+            requests: 0,
+            words: 0
+        };
+
+        function updateStats(wordCount) {
+            stats.requests++;
+            stats.words += wordCount;
+            document.getElementById('requestCount').textContent = stats.requests;
+            document.getElementById('wordCount').textContent = stats.words.toLocaleString();
+        }
+
+        // Navigation
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Copy functionality
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            event.target.textContent = 'Copied!';
+            setTimeout(() => {
+                event.target.textContent = 'Copy';
+            }, 2000);
+        }
+
+        // Character Generator
+        function generateCharacter() {
+            const type = document.getElementById('charType').value;
+            const setting = document.getElementById('charSetting').value || 'a decaying city';
+            const tragedy = document.getElementById('charTragedy').value || 'a burden they cannot name';
+            
+            const output = document.getElementById('charOutput');
+            output.innerHTML = '<div class="loading"></div> Generating character...';
+            output.classList.add('active');
+            
+            setTimeout(() => {
+                const character = {
+                    name: generateName(),
+                    archetype: type,
+                    age: Math.floor(Math.random() * 40) + 30,
+                    appearance: generateAppearance(type),
+                    backstory: generateBackstory(type, setting, tragedy),
+                    motivation: generateMotivation(type),
+                    flaw: generateFlaw(),
+                    secret: generateSecret(),
+                    voice: generateVoice(type)
+                };
+                
+                const response = `
+                    <button class="copy-button" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button>
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">${character.name}</h3>
+                    <p><strong>Archetype:</strong> ${character.archetype} | <strong>Age:</strong> ${character.age}</p>
+                    <p style="margin-top: 1rem;"><strong>Appearance:</strong> ${character.appearance}</p>
+                    <p style="margin-top: 1rem;"><strong>Backstory:</strong> ${character.backstory}</p>
+                    <p style="margin-top: 1rem;"><strong>Core Motivation:</strong> ${character.motivation}</p>
+                    <p style="margin-top: 1rem;"><strong>Fatal Flaw:</strong> ${character.flaw}</p>
+                    <p style="margin-top: 1rem;"><strong>Hidden Secret:</strong> ${character.secret}</p>
+                    <p style="margin-top: 1rem;"><strong>Voice:</strong> "${character.voice}"</p>
+                `;
+                
+                output.innerHTML = response;
+                updateStats(response.split(' ').length);
+            }, 1500);
+        }
+
+        // Plot Generator
+        function generatePlot() {
+            const genre = document.getElementById('plotGenre').value;
+            const theme = document.getElementById('plotTheme').value || 'the price of redemption';
+            const stakes = document.getElementById('plotStakes').value;
+            
+            const output = document.getElementById('plotOutput');
+            output.innerHTML = '<div class="loading"></div> Architecting plot...';
+            output.classList.add('active');
+            
+            setTimeout(() => {
+                const plot = generatePlotStructure(genre, theme, stakes);
+                
+                const response = `
+                    <button class="copy-button" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button>
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">Plot Architecture</h3>
+                    <p><strong>Genre:</strong> ${genre.replace('-', ' ').toUpperCase()} | <strong>Theme:</strong> ${theme}</p>
+                    <p style="margin-top: 1rem;"><strong>Opening Image:</strong> ${plot.opening}</p>
+                    <p style="margin-top: 1rem;"><strong>Inciting Incident:</strong> ${plot.incident}</p>
+                    <p style="margin-top: 1rem;"><strong>Rising Complications:</strong> ${plot.complications}</p>
+                    <p style="margin-top: 1rem;"><strong>Midpoint Revelation:</strong> ${plot.midpoint}</p>
+                    <p style="margin-top: 1rem;"><strong>Dark Night of the Soul:</strong> ${plot.darknight}</p>
+                    <p style="margin-top: 1rem;"><strong>Climactic Choice:</strong> ${plot.climax}</p>
+                    <p style="margin-top: 1rem;"><strong>Resolution:</strong> ${plot.resolution}</p>
+                    <p style="margin-top: 1rem;"><strong>Final Image:</strong> ${plot.final}</p>
+                `;
+                
+                output.innerHTML = response;
+                updateStats(response.split(' ').length);
+            }, 1500);
+        }
+
+        // Dialogue Generator
+        function generateDialogue() {
+            const type = document.getElementById('dialogueType').value;
+            const dynamic = document.getElementById('dialogueDynamic').value || 'two souls bound by tragedy';
+            const tension = document.getElementById('dialogueTension').value || 'unspoken truths';
+            
+            const output = document.getElementById('dialogueOutput');
+            output.innerHTML = '<div class="loading"></div> Crafting dialogue...';
+            output.classList.add('active');
+            
+            setTimeout(() => {
+                const dialogue = generateDialogueExchange(type, dynamic, tension);
+                
+                const response = `
+                    <button class="copy-button" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button>
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">Scene: ${type.charAt(0).toUpperCase() + type.slice(1)}</h3>
+                    <p style="margin-bottom: 1rem;"><em>${dialogue.setup}</em></p>
+                    ${dialogue.exchange.map(line => `<p style="margin-left: ${line.speaker === 'A' ? '0' : '2rem'}; margin-top: 0.5rem;"><strong>${line.speaker}:</strong> "${line.text}"</p>`).join('')}
+                    <p style="margin-top: 1rem;"><em>${dialogue.subtext}</em></p>
+                `;
+                
+                output.innerHTML = response;
+                updateStats(response.split(' ').length);
+            }, 1500);
+        }
+
+        // World Builder
+        function generateWorld() {
+            const type = document.getElementById('worldType').value;
+            const conflict = document.getElementById('worldConflict').value || 'order versus chaos';
+            const atmosphere = document.getElementById('worldAtmosphere').value;
+            
+            const output = document.getElementById('worldOutput');
+            output.innerHTML = '<div class="loading"></div> Building world...';
+            output.classList.add('active');
+            
+            setTimeout(() => {
+                const world =
