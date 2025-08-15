@@ -709,9 +709,6 @@
             // Synthesis
             const synthesis = generateSynthesis(character, plot, theme);
             
-            // Opening Scene
-            const opening = generateOpening(setting, period, character.name, surreal);
-            
             return `
                 <div class="output-section">
                     <div class="output-label">Character Arc</div>
@@ -755,9 +752,9 @@
                 </div>
                 
                 <div class="output-section">
-                    <div class="output-label">Opening Scene</div>
-                    <div class="output-content">
-                        <p style="font-style: italic; line-height: 1.8;">${opening}</p>
+                    <div class="output-label">Complete Story</div>
+                    <div class="output-content" style="white-space: pre-wrap; line-height: 1.8;">
+                        ${generateCompleteStory(character, plot, theme, setting, period, genre, surreal)}
                     </div>
                 </div>
             `;
