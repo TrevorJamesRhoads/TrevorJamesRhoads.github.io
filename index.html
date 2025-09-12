@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trevor James Rhoads - Writing Portfolio</title>
+    <title>Trevor James Rhoads - Music & Writing Portfolio</title>
     <style>
         * {
             margin: 0;
@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
         }
@@ -89,7 +89,7 @@
 
         /* Hero Section */
         .hero {
-            padding: 120px 0 80px;
+            padding: 120px 0 40px;
             text-align: center;
             background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
             margin-top: 0;
@@ -112,36 +112,18 @@
             animation: fadeInUp 1s ease 0.2s both;
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 15px 30px;
-            background: linear-gradient(45deg, #7dd3fc, #f87171);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            animation: fadeInUp 1s ease 0.4s both;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
         /* About Section */
         .about {
-            padding: 80px 0;
+            padding: 60px 0 40px;
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
         }
 
         .about-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 300px;
             gap: 4rem;
-            align-items: center;
+            align-items: start;
         }
 
         .about-text h2 {
@@ -156,27 +138,11 @@
             margin-bottom: 1.5rem;
         }
 
-        .skills {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .skill-tag {
-            background: linear-gradient(45deg, rgba(125, 211, 252, 0.2), rgba(248, 113, 113, 0.2));
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #333;
-            border: 1px solid rgba(125, 211, 252, 0.3);
-        }
-
         .about-image {
             background: linear-gradient(45deg, rgba(125, 211, 252, 0.1), rgba(248, 113, 113, 0.1));
             border-radius: 20px;
             padding: 2rem;
             text-align: center;
-            min-height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -186,52 +152,219 @@
 
         /* Portfolio Section */
         .portfolio {
-            padding: 80px 0;
+            padding: 60px 0;
         }
 
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #0891b2;
-        }
-
-        .portfolio-grid {
+        .portfolio-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .portfolio-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid;
+        }
+
+        .music-section h2 {
+            color: #dc2626;
+            border-bottom-color: rgba(220, 38, 38, 0.3);
+        }
+
+        .writing-section h2 {
+            color: #0891b2;
+            border-bottom-color: rgba(8, 145, 178, 0.3);
+        }
+
+        /* Music Player Styles */
+        .music-player {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .current-track {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .track-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #dc2626;
+            margin-bottom: 0.5rem;
+        }
+
+        .track-artist {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .control-btn {
+            background: linear-gradient(45deg, #dc2626, #f87171);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .play-pause {
+            width: 60px;
+            height: 60px;
+            font-size: 1.2rem;
+        }
+
+        .progress-container {
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e5e5e5;
+            border-radius: 3px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(45deg, #dc2626, #f87171);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+            background: #e5e5e5;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #dc2626, #f87171);
+            cursor: pointer;
+        }
+
+        .playlist {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .playlist-item {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(220, 38, 38, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .playlist-item:hover {
+            background: rgba(220, 38, 38, 0.1);
+            transform: translateX(5px);
+        }
+
+        .playlist-item.active {
+            background: linear-gradient(45deg, rgba(220, 38, 38, 0.2), rgba(248, 113, 113, 0.2));
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+
+        .playlist-item h4 {
+            color: #dc2626;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .playlist-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Writing Portfolio Styles */
+        .writing-grid {
+            display: grid;
+            gap: 1.5rem;
         }
 
         .portfolio-item {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
-            padding: 2rem;
+            padding: 1.5rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            border: 1px solid rgba(125, 211, 252, 0.2);
+            border: 1px solid rgba(8, 145, 178, 0.2);
         }
 
         .portfolio-item:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
         .portfolio-item h3 {
-            color: #dc2626;
+            color: #0891b2;
             margin-bottom: 1rem;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
 
         .portfolio-item p {
             color: #666;
             margin-bottom: 1.5rem;
+            font-size: 0.95rem;
         }
 
         .portfolio-item .meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #999;
             margin-bottom: 1rem;
         }
@@ -249,7 +382,7 @@
 
         /* Contact Section */
         .contact {
-            padding: 80px 0;
+            padding: 60px 0;
             background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
             text-align: center;
         }
@@ -311,6 +444,18 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1024px) {
+            .portfolio-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -320,7 +465,7 @@
                 font-size: 2.5rem;
             }
 
-            .about-content {
+            .portfolio-container {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
@@ -330,8 +475,8 @@
                 align-items: center;
             }
 
-            .portfolio-grid {
-                grid-template-columns: 1fr;
+            .player-controls {
+                flex-wrap: wrap;
             }
         }
 
@@ -357,8 +502,7 @@
     <section id="home" class="hero">
         <div class="container">
             <h1>Rediscovering empathy</h1>
-            <p>through wordsmithing and storytelling.</p>
-            <a href="#portfolio" class="cta-button">View My Work</a>
+            <p>through music and storytelling.</p>
         </div>
     </section>
 
@@ -367,9 +511,8 @@
             <div class="about-content">
                 <div class="about-text">
                     <h2>About Me</h2>
-                    <p>Trevor James Rhoads is a creative writer and music producer. He has spent far too much time designing this website to show off his stories but hopes you'll indulge him by taking a gander at his wares. Full transparency, this has been built in hopes to land writing gigs. Trevor is going through a bit of a third-life crisis and sees this as a reasonable avenue for success.</p>
+                    <p>Trevor James Rhoads is a creative writer and music producer. He has spent far too much time designing this website to show off his stories and compositions but hopes you'll indulge him by taking a gander at his wares. Full transparency, this has been built in hopes to land creative gigs. Trevor is going through a bit of a third-life crisis and sees this as a reasonable avenue for success.</p>
                     <p>Trevor has spent the entirety of his life in the Ozarks, currently residing in Cotter, Arkansas, a quaint town nestled in a bend in the White River. He enjoys playing various instruments and being a feral caffeine goblin. I—umm, <em>he</em>—also has a particularly handsome dog named Hades.</p>      
-                    <p>Trevdawg has countless stories but has chosen a select few samples to show both his unique writing style and varied subject matter.</p>
                 </div>
                 <div class="about-image">
                     <img src="https://i.imgur.com/bOCegY9.png" alt="Trevor James Rhoads Logo" style="max-width: 100%; height: auto; border-radius: 10px;">    
@@ -380,59 +523,116 @@
 
     <section id="portfolio" class="portfolio">
         <div class="container">
-            <h2 class="section-title">Writing Portfolio</h2>
-            <div class="portfolio-grid">
-
-                <div class="portfolio-item">
-                    <div class="meta">
-                        <span>Prose</span>
-                        <span>Literary Fiction</span>
-                    </div>
-                    <h3>The Acts Between</h3>
-                    <p>A tender, low-stakes drama about nostalgia, yearning, and holding on to fleeting moments. Our protagonist, Lionel, attempts to kindle a romance at his high school reunion.</p>
-                    <a href="https://trevorjamesrhoads.github.io/articles/TheActsBetween.html" class="read-more">Read Full Story →</a>     
-                </div>
+            <div class="portfolio-container">
+                
+                <!-- Music Section -->
+                <div class="portfolio-section music-section">
+                    <h2>🎵 Music</h2>
+                    
+                    <div class="music-player">
+                        <div class="current-track">
+                            <div class="track-title" id="currentTitle">Select a track to play</div>
+                            <div class="track-artist" id="currentArtist">Trevor James Rhoads</div>
+                        </div>
                         
-                <div class="portfolio-item">
-                    <div class="meta">
-                        <span>Prose</span>
-                        <span>Science Fiction</span>
+                        <div class="player-controls">
+                            <button class="control-btn" id="prevBtn">⏮</button>
+                            <button class="control-btn play-pause" id="playPauseBtn">▶</button>
+                            <button class="control-btn" id="nextBtn">⏭</button>
+                        </div>
+                        
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar">
+                                <div class="progress" id="progress"></div>
+                            </div>
+                            <div class="time-display">
+                                <span id="currentTime">0:00</span>
+                                <span id="duration">0:00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="volume-control">
+                            <span>🔊</span>
+                            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
+                        </div>
+                        
+                        <audio id="audioPlayer" preload="metadata"></audio>
                     </div>
-                    <h3>Pure Obsidian</h3>
-                    <p>Intrigue is abound as the territory of Pyro Ciera reaches its last days of political autonomy, and the conspiracies run deep when it comes to the Gryll, the insectoid race that has long been subjugated to slavery. This (one-day) novel plays fast and loose with narrative, especially as the hivemind of the Gryll opens up to our human POV characters.</p>
-                    <a href="https://trevorjamesrhoads.github.io/articles/PureObsidian.html" class="read-more">Read Sample →</a>
+                    
+                    <div class="playlist" id="playlist">
+                        <div class="playlist-item" data-src="path/to/your/song1.mp3">
+                            <h4>Song Title 1</h4>
+                            <p>Genre • Duration</p>
+                        </div>
+                        <div class="playlist-item" data-src="path/to/your/song2.mp3">
+                            <h4>Song Title 2</h4>
+                            <p>Genre • Duration</p>
+                        </div>
+                        <div class="playlist-item" data-src="path/to/your/song3.mp3">
+                            <h4>Song Title 3</h4>
+                            <p>Genre • Duration</p>
+                        </div>
+                        <!-- Add more playlist items as needed -->
+                    </div>
                 </div>
 
-                <div class="portfolio-item">
-                    <div class="meta">
-                        <span>Screenplay</span>
-                        <span>Period Piece Drama</span>
-                    </div>
-                    <h3>Doggerland</h3>
-                    <p>Game is running low in Doggerland. Khari must venture into the taboo southern woods to save his family from starvation.</p>
-                    <a href="https://trevorjamesrhoads.github.io/articles/Doggerland.html" class="read-more">Read Sample →</a>
-                </div>
+                <!-- Writing Section -->
+                <div class="portfolio-section writing-section">
+                    <h2>✍️ Writing</h2>
+                    
+                    <div class="writing-grid">
+                        <div class="portfolio-item">
+                            <div class="meta">
+                                <span>Prose</span>
+                                <span>Literary Fiction</span>
+                            </div>
+                            <h3>The Acts Between</h3>
+                            <p>A tender, low-stakes drama about nostalgia, yearning, and holding on to fleeting moments. Our protagonist, Lionel, attempts to kindle a romance at his high school reunion.</p>
+                            <a href="https://trevorjamesrhoads.github.io/articles/TheActsBetween.html" class="read-more">Read Full Story →</a>     
+                        </div>
+                                
+                        <div class="portfolio-item">
+                            <div class="meta">
+                                <span>Prose</span>
+                                <span>Science Fiction</span>
+                            </div>
+                            <h3>Pure Obsidian</h3>
+                            <p>Intrigue is abound as the territory of Pyro Ciera reaches its last days of political autonomy, and the conspiracies run deep when it comes to the Gryll, the insectoid race that has long been subjugated to slavery.</p>
+                            <a href="https://trevorjamesrhoads.github.io/articles/PureObsidian.html" class="read-more">Read Sample →</a>
+                        </div>
 
-                <div class="portfolio-item">
-                    <div class="meta">
-                        <span>Prose</span>
-                        <span>Fantasy</span>
-                    </div>
-                    <h3>We March Forward</h3>
-                    <p>Katak Natu wishes to ascend to Utana Katak to unite his peoples for the days to come, but he has one last trial: to defeat the katak of the Duskmakers in a duel and inherit his tribe.</p>
-                    <a href="https://trevorjamesrhoads.github.io/articles/WeMarchForward.html" class="read-more">Read Sample →</a>
-                </div>
+                        <div class="portfolio-item">
+                            <div class="meta">
+                                <span>Screenplay</span>
+                                <span>Period Piece Drama</span>
+                            </div>
+                            <h3>Doggerland</h3>
+                            <p>Game is running low in Doggerland. Khari must venture into the taboo southern woods to save his family from starvation.</p>
+                            <a href="https://trevorjamesrhoads.github.io/articles/Doggerland.html" class="read-more">Read Sample →</a>
+                        </div>
 
-                <div class="portfolio-item">
-                    <div class="meta">
-                        <span>Prose</span>
-                        <span>Fantasy</span>
-                    </div>
-                    <h3>The Arithmancer</h3>
-                    <p>Tiberius Townshend is an elderly smallfolk, merry in his position as professor at Old Town University. That is, until he is gifted A Rather Large Tome and propelled into adventure.</p>
-                    <a href="https://trevorjamesrhoads.github.io/articles/TheArithmancer.html" class="read-more">Read Sample →</a>
-                </div>
+                        <div class="portfolio-item">
+                            <div class="meta">
+                                <span>Prose</span>
+                                <span>Fantasy</span>
+                            </div>
+                            <h3>We March Forward</h3>
+                            <p>Katak Natu wishes to ascend to Utana Katak to unite his peoples for the days to come, but he has one last trial: to defeat the katak of the Duskmakers in a duel and inherit his tribe.</p>
+                            <a href="https://trevorjamesrhoads.github.io/articles/WeMarchForward.html" class="read-more">Read Sample →</a>
+                        </div>
 
+                        <div class="portfolio-item">
+                            <div class="meta">
+                                <span>Prose</span>
+                                <span>Fantasy</span>
+                            </div>
+                            <h3>The Arithmancer</h3>
+                            <p>Tiberius Townshend is an elderly smallfolk, merry in his position as professor at Old Town University. That is, until he is gifted A Rather Large Tome and propelled into adventure.</p>
+                            <a href="https://trevorjamesrhoads.github.io/articles/TheArithmancer.html" class="read-more">Read Sample →</a>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </section>
@@ -441,7 +641,7 @@
         <div class="container">
             <div class="contact-content">
                 <h2>Let's Work Together</h2>
-                <p>Like the order in which I put specific words? I'd love to hear from you.</p>
+                <p>Like the order in which I put notes or words? I'd love to hear from you.</p>
                 <div class="contact-info">
                     <div class="contact-item">
                         <h4>Email</h4>
@@ -463,6 +663,143 @@
     </footer>
 
     <script>
+        // Music Player Functionality
+        class MusicPlayer {
+            constructor() {
+                this.audio = document.getElementById('audioPlayer');
+                this.playPauseBtn = document.getElementById('playPauseBtn');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.progressBar = document.getElementById('progressBar');
+                this.progress = document.getElementById('progress');
+                this.currentTime = document.getElementById('currentTime');
+                this.duration = document.getElementById('duration');
+                this.volumeSlider = document.getElementById('volumeSlider');
+                this.currentTitle = document.getElementById('currentTitle');
+                this.currentArtist = document.getElementById('currentArtist');
+                this.playlist = document.getElementById('playlist');
+                
+                this.currentTrackIndex = -1;
+                this.tracks = [];
+                this.isPlaying = false;
+                
+                this.init();
+            }
+            
+            init() {
+                // Get playlist items
+                this.tracks = Array.from(document.querySelectorAll('.playlist-item'));
+                
+                // Event listeners
+                this.playPauseBtn.addEventListener('click', () => this.togglePlay());
+                this.prevBtn.addEventListener('click', () => this.previousTrack());
+                this.nextBtn.addEventListener('click', () => this.nextTrack());
+                this.progressBar.addEventListener('click', (e) => this.setProgress(e));
+                this.volumeSlider.addEventListener('input', (e) => this.setVolume(e));
+                
+                // Audio event listeners
+                this.audio.addEventListener('timeupdate', () => this.updateProgress());
+                this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
+                this.audio.addEventListener('ended', () => this.nextTrack());
+                
+                // Playlist click events
+                this.tracks.forEach((track, index) => {
+                    track.addEventListener('click', () => this.selectTrack(index));
+                });
+                
+                // Set initial volume
+                this.audio.volume = 0.7;
+            }
+            
+            selectTrack(index) {
+                if (this.currentTrackIndex >= 0) {
+                    this.tracks[this.currentTrackIndex].classList.remove('active');
+                }
+                
+                this.currentTrackIndex = index;
+                const track = this.tracks[index];
+                track.classList.add('active');
+                
+                const title = track.querySelector('h4').textContent;
+                const src = track.dataset.src;
+                
+                this.currentTitle.textContent = title;
+                this.audio.src = src;
+                
+                if (this.isPlaying) {
+                    this.audio.play();
+                }
+            }
+            
+            togglePlay() {
+                if (this.currentTrackIndex === -1 && this.tracks.length > 0) {
+                    this.selectTrack(0);
+                }
+                
+                if (this.audio.paused) {
+                    this.audio.play();
+                    this.playPauseBtn.textContent = '⏸';
+                    this.isPlaying = true;
+                } else {
+                    this.audio.pause();
+                    this.playPauseBtn.textContent = '▶';
+                    this.isPlaying = false;
+                }
+            }
+            
+            previousTrack() {
+                if (this.currentTrackIndex > 0) {
+                    this.selectTrack(this.currentTrackIndex - 1);
+                } else if (this.tracks.length > 0) {
+                    this.selectTrack(this.tracks.length - 1);
+                }
+            }
+            
+            nextTrack() {
+                if (this.currentTrackIndex < this.tracks.length - 1) {
+                    this.selectTrack(this.currentTrackIndex + 1);
+                } else if (this.tracks.length > 0) {
+                    this.selectTrack(0);
+                }
+            }
+            
+            updateProgress() {
+                if (this.audio.duration) {
+                    const progressPercent = (this.audio.currentTime / this.audio.duration) * 100;
+                    this.progress.style.width = progressPercent + '%';
+                    
+                    this.currentTime.textContent = this.formatTime(this.audio.currentTime);
+                }
+            }
+            
+            updateDuration() {
+                this.duration.textContent = this.formatTime(this.audio.duration);
+            }
+            
+            setProgress(e) {
+                const rect = this.progressBar.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const progressPercent = (clickX / rect.width);
+                this.audio.currentTime = progressPercent * this.audio.duration;
+            }
+            
+            setVolume(e) {
+                this.audio.volume = e.target.value / 100;
+            }
+            
+            formatTime(time) {
+                if (isNaN(time)) return '0:00';
+                const minutes = Math.floor(time / 60);
+                const seconds = Math.floor(time % 60);
+                return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+        
+        // Initialize music player when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new MusicPlayer();
+        });
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -503,7 +840,7 @@
         }, observerOptions);
 
         // Observe portfolio items for scroll animations
-        document.querySelectorAll('.portfolio-item').forEach(item => {
+        document.querySelectorAll('.portfolio-item, .music-player, .playlist-item').forEach(item => {
             item.style.opacity = '0';
             item.style.transform = 'translateY(30px)';
             item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
